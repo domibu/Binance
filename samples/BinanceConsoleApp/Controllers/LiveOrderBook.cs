@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,6 +8,10 @@ using Binance.Market;
 using Binance.WebSocket;
 using Binance.WebSocket.Events;
 using Binance.WebSocket.Manager;
+using BinanceConsoleApp.Database;
+using SQLite;
+using Newtonsoft.Json;
+//using SQLite.Net.Async;
 
 namespace BinanceConsoleApp.Controllers
 {
@@ -55,6 +60,11 @@ namespace BinanceConsoleApp.Controllers
             {
                 Program.ClientManager.DepthClient.Subscribe(symbol, 5, evt => OnDepthUpdate(evt));
 
+                using (var conn = new SQLite.SQLiteConnection(_pathToDatabase))
+                {
+                    conn.CreateTable<OrderBookSqlite>();
+                }
+
                 // Optionally, wait for asynchronous client adapter operation to complete.
                 await ((IBinanceWebSocketClientAdapter)Program.ClientManager.DepthClient).Task;
 
@@ -83,8 +93,22 @@ namespace BinanceConsoleApp.Controllers
             return true;
         }
 
+        static string _pathToDatabase = "DataSource=OrderBook.sqlite;Version=3;";
+
         private static void OnDepthUpdate(DepthUpdateEventArgs e)
         {
+
+            using (var conn = new SQLiteConnection(_pathToDatabase, false))
+            {
+                conn.Insert(new OrderBookSqlite
+                {
+                    Timestamp = e.Time,
+                    Market = "Binance",
+                    Symbol = e.Symbol,
+                    Data = JsonConvert.SerializeObject(e)
+                });
+            }
+
             var top = OrderBookTop.Create(e.Symbol, e.Bids.First(), e.Asks.First());
 
             lock (Program.ConsoleSync)
@@ -92,5 +116,18 @@ namespace BinanceConsoleApp.Controllers
                 Console.WriteLine($"  {top.Symbol}  -  Bid: {top.Bid.Price:.00000000}  |  {top.MidMarketPrice():.00000000}  |  Ask: {top.Ask.Price:.00000000}  -  Spread: {top.Spread():.00000000}");
             }
         }
+
+        public class TestPath
+        {
+            public static string GetTempFileName()
+            {
+#if NETFX_CORE
+            var name = Guid.NewGuid () + ".sqlite";
+            return Path.Combine (Windows.Storage.ApplicationData.Current.LocalFolder.Path, name);
+#else
+                return Path.GetTempFileName();
+#endif
+            }
+        }
+        }
     }
-}
