@@ -42,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binance.WebSocket.WebSocket
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binance.WebSocket.WebSocket4Net", "samples\Binance.WebSocket.WebSocket4Net\Binance.WebSocket.WebSocket4Net.csproj", "{67C1BE38-527F-424D-85A6-DFD8117E21D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kucoin", "Kucoin\Kucoin.csproj", "{50D9CF4C-5261-446C-94E9-39BA92294E97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kucoin", "Kucoin\Kucoin.csproj", "{7C292B1B-7B9C-49FE-ACD5-025E260C2C44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,10 +106,10 @@ Global
 		{67C1BE38-527F-424D-85A6-DFD8117E21D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67C1BE38-527F-424D-85A6-DFD8117E21D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67C1BE38-527F-424D-85A6-DFD8117E21D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50D9CF4C-5261-446C-94E9-39BA92294E97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50D9CF4C-5261-446C-94E9-39BA92294E97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50D9CF4C-5261-446C-94E9-39BA92294E97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50D9CF4C-5261-446C-94E9-39BA92294E97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C292B1B-7B9C-49FE-ACD5-025E260C2C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C292B1B-7B9C-49FE-ACD5-025E260C2C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C292B1B-7B9C-49FE-ACD5-025E260C2C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C292B1B-7B9C-49FE-ACD5-025E260C2C44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
