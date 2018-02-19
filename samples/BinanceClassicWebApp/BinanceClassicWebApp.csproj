@@ -35,6 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Binance, Version=0.2.0.27, Culture=neutral, processorArchitecture=MSIL">
@@ -259,7 +261,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>

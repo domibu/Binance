@@ -1,9 +1,10 @@
-﻿using System.Threading;
+﻿using Binance.Api;
+using Binance.WebSocket.UserData;
+using System.Threading;
 using System.Threading.Tasks;
-using Binance.Api;
 
 // ReSharper disable once CheckNamespace
-namespace Binance.WebSocket.UserData
+namespace Kucoin.WebSocket.UserData
 {
     public static class UserDataWebSocketManagerExtensions
     {
