@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 // ReSharper disable once CheckNamespace
-namespace Kucoin.WebSocket.UserData
+namespace Binance.WebSocket.UserData
 {
     public static class UserDataWebSocketManagerExtensions
     {
