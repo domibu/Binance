@@ -15,7 +15,7 @@ namespace BinanceConsoleApp.Controllers
 
             if (args.Length > 1 && args[1].Equals("account", StringComparison.OrdinalIgnoreCase))
             {
-                var status = await Program.Api.GetAccountStatusAsync(Program.User, token);
+                var status = await Program.BinanceApi.GetAccountStatusAsync(Program.User, token);
 
                 lock (Program.ConsoleSync)
                 {
@@ -25,7 +25,7 @@ namespace BinanceConsoleApp.Controllers
             }
             else if (args.Length > 1 && args[1].Equals("system", StringComparison.OrdinalIgnoreCase))
             {
-                var status = await Program.Api.GetSystemStatusAsync(token);
+                var status = await Program.BinanceApi.GetSystemStatusAsync(token);
 
                 lock (Program.ConsoleSync)
                 {

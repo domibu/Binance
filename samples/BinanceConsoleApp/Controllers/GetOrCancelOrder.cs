@@ -52,8 +52,8 @@ namespace BinanceConsoleApp.Controllers
             if (args.Length > 3 && args[3].Equals("cancel", StringComparison.OrdinalIgnoreCase))
             {
                 var cancelOrderId = clientOrderId != null
-                    ? await Program.Api.CancelOrderAsync(Program.User, symbol, clientOrderId, token: token)
-                    : await Program.Api.CancelOrderAsync(Program.User, symbol, id, token: token);
+                    ? await Program.BinanceApi.CancelOrderAsync(Program.User, symbol, clientOrderId, token: token)
+                    : await Program.BinanceApi.CancelOrderAsync(Program.User, symbol, id, token: token);
 
                 lock (Program.ConsoleSync)
                 {
@@ -65,8 +65,8 @@ namespace BinanceConsoleApp.Controllers
             else
             {
                 var order = clientOrderId != null
-                    ? await Program.Api.GetOrderAsync(Program.User, symbol, clientOrderId, token: token)
-                    : await Program.Api.GetOrderAsync(Program.User, symbol, id, token: token);
+                    ? await Program.BinanceApi.GetOrderAsync(Program.User, symbol, clientOrderId, token: token)
+                    : await Program.BinanceApi.GetOrderAsync(Program.User, symbol, id, token: token);
 
                 lock (Program.ConsoleSync)
                 {

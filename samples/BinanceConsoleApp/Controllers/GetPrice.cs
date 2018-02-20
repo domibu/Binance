@@ -22,7 +22,7 @@ namespace BinanceConsoleApp.Controllers
 
             if (string.IsNullOrWhiteSpace(symbol))
             {
-                var prices = await Program.Api.GetPricesAsync(token);
+                var prices = await Program.BinanceApi.GetPricesAsync(token);
 
                 lock (Program.ConsoleSync)
                 {
@@ -36,7 +36,7 @@ namespace BinanceConsoleApp.Controllers
             }
             else
             {
-                var price = await Program.Api.GetPriceAsync(symbol, token);
+                var price = await Program.BinanceApi.GetPriceAsync(symbol, token);
                 Program.Display(price);
                 Console.WriteLine();
             }

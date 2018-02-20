@@ -297,7 +297,7 @@ namespace Kucoin.Api
                 throw new ArgumentException($"Time ({nameof(endTime)}) must not be less than {nameof(startTime)} ({startTime}).", nameof(endTime));
 
             // NOTE: Limit does not apply when using start and end time.
-            var json = await HttpClient.GetAggregateTradesAsync(symbol, NullId, default, startTime.ToTimestamp(), endTime.ToTimestamp(), token)
+            var json = await HttpClient.GetAggregateTradesAsync(symbol, NullId, default, startTime.ToTimestampK(), endTime.ToTimestampK(), token)
                 .ConfigureAwait(false);
 
             try { return _aggregateTradeSerializer.DeserializeMany(json, symbol); }
@@ -647,7 +647,7 @@ namespace Kucoin.Api
                         entry["locked"].Value<decimal>()))
                     .ToArray();
 
-                return new AccountInfo(user, commissions, status, jObject["updateTime"].Value<long>().ToDateTime(), balances);
+                return new AccountInfo(user, commissions, status, jObject["updateTime"].Value<long>().ToDateTimeK(), balances);
             }
             catch (Exception e)
             {
@@ -722,7 +722,7 @@ namespace Kucoin.Api
                             depositList.Select(jToken => new Deposit(
                                 jToken["asset"].Value<string>(),
                                 jToken["amount"].Value<decimal>(),
-                                jToken["insertTime"].Value<long>().ToDateTime(),
+                                jToken["insertTime"].Value<long>().ToDateTimeK(),
                                 (DepositStatus)jToken["status"].Value<int>(),
                                 jToken["address"]?.Value<string>(),
                                 jToken["addressTag"]?.Value<string>(),
@@ -769,7 +769,7 @@ namespace Kucoin.Api
                                 jToken["id"].Value<string>(),
                                 jToken["asset"].Value<string>(),
                                 jToken["amount"].Value<decimal>(),
-                                jToken["applyTime"].Value<long>().ToDateTime(),
+                                jToken["applyTime"].Value<long>().ToDateTimeK(),
                                 (WithdrawalStatus)jToken["status"].Value<int>(),
                                 jToken["address"].Value<string>(),
                                 jToken["addressTag"]?.Value<string>(),

@@ -46,7 +46,7 @@ namespace BinanceConsoleApp.Controllers
                 int.TryParse(args[3], out limit);
             }
 
-            var trades = await Program.Api.GetAccountTradesAsync(Program.User, symbol, fromId, limit, token: token);
+            var trades = await Program.BinanceApi.GetAccountTradesAsync(Program.User, symbol, fromId, limit, token: token);
 
             lock (Program.ConsoleSync)
             {

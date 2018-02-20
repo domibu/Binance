@@ -22,7 +22,7 @@ namespace BinanceConsoleApp.Controllers
 
             if (string.IsNullOrWhiteSpace(symbol))
             {
-                var tops = await Program.Api.GetOrderBookTopsAsync(token);
+                var tops = await Program.BinanceApi.GetOrderBookTopsAsync(token);
 
                 lock (Program.ConsoleSync)
                 {
@@ -36,7 +36,7 @@ namespace BinanceConsoleApp.Controllers
             }
             else
             {
-                var top = await Program.Api.GetOrderBookTopAsync(symbol, token);
+                var top = await Program.BinanceApi.GetOrderBookTopAsync(symbol, token);
                 Program.Display(top);
             }
 

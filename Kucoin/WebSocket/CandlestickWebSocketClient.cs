@@ -81,7 +81,7 @@ namespace Kucoin.WebSocket
                 if (eventType == "kline")
                 {
                     //var symbol = jObject["s"].Value<string>();
-                    var eventTime = jObject["E"].Value<long>().ToDateTime();
+                    var eventTime = jObject["E"].Value<long>().ToDateTimeK();
 
                     var kLine = jObject["k"];
 
@@ -95,14 +95,14 @@ namespace Kucoin.WebSocket
                         kLine["i"].Value<string>()   // interval
                             .ToCandlestickInterval(), 
                         kLine["t"].Value<long>()     // open time
-                            .ToDateTime(),           
+                            .ToDateTimeK(),           
                         kLine["o"].Value<decimal>(), // open
                         kLine["h"].Value<decimal>(), // high
                         kLine["l"].Value<decimal>(), // low
                         kLine["c"].Value<decimal>(), // close
                         kLine["v"].Value<decimal>(), // volume
                         kLine["T"].Value<long>()     // close time
-                            .ToDateTime(),           
+                            .ToDateTimeK(),           
                         kLine["q"].Value<decimal>(), // quote asset volume
                         kLine["n"].Value<long>(),    // number of trades
                         kLine["V"].Value<decimal>(), // taker buy base asset volume (volume of active buy)

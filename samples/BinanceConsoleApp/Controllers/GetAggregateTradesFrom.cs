@@ -50,7 +50,7 @@ namespace BinanceConsoleApp.Controllers
                 int.TryParse(args[3], out limit);
             }
 
-            var trades = (await Program.Api.GetAggregateTradesFromAsync(symbol, fromId, limit, token))
+            var trades = (await Program.BinanceApi.GetAggregateTradesFromAsync(symbol, fromId, limit, token))
                 .Reverse().ToArray();
 
             lock (Program.ConsoleSync)

@@ -10,7 +10,7 @@ namespace Kucoin
         /// </summary>
         /// <param name="timestamp"></param>
         /// <returns></returns>
-        public static DateTime ToDateTime(this long timestamp)
+        public static DateTime ToDateTimeK(this long timestamp)
         {
             return DateTimeOffset.FromUnixTimeMilliseconds(timestamp).UtcDateTime;
         }

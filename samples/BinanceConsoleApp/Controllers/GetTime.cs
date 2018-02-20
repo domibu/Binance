@@ -12,12 +12,12 @@ namespace BinanceConsoleApp.Controllers
             if (!command.Equals("time", StringComparison.OrdinalIgnoreCase))
                 return false;
 
-            var time = await Program.Api.GetTimeAsync(token);
-            var timestamp = await Program.Api.GetTimestampAsync(token);
+            var time = await Program.BinanceApi.GetTimeAsync(token);
+            var timestamp = await Program.BinanceApi.GetTimestampAsync(token);
 
             lock (Program.ConsoleSync)
             {
-                Console.WriteLine($"  {time.Kind.ToString().ToUpperInvariant()} Time: {time}  [Local: {time.ToLocalTime()}]  Timestamp: {timestamp} [offset: {Program.Api.HttpClient.TimestampProvider?.TimestampOffset ?? 0}]");
+                Console.WriteLine($"  {time.Kind.ToString().ToUpperInvariant()} Time: {time}  [Local: {time.ToLocalTime()}]  Timestamp: {timestamp} [offset: {Program.BinanceApi.HttpClient.TimestampProvider?.TimestampOffset ?? 0}]");
                 Console.WriteLine();
             }
 

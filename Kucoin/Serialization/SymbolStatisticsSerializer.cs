@@ -72,8 +72,8 @@ namespace Kucoin.Serialization
                 new JProperty(KeyLowPrice, statistics.LowPrice.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyVolume, statistics.Volume.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyQuoteVolume, statistics.QuoteVolume.ToString(CultureInfo.InvariantCulture)),
-                new JProperty(KeyOpenTime, statistics.OpenTime.ToTimestamp()),
-                new JProperty(KeyCloseTime, statistics.CloseTime.ToTimestamp()),
+                new JProperty(KeyOpenTime, statistics.OpenTime.ToTimestampK()),
+                new JProperty(KeyCloseTime, statistics.CloseTime.ToTimestampK()),
                 new JProperty(KeyFirstTradeId, statistics.FirstTradeId),
                 new JProperty(KeyLastTradeId, statistics.LastTradeId),
                 new JProperty(KeyTradeCount, statistics.TradeCount)
@@ -102,8 +102,8 @@ namespace Kucoin.Serialization
                 jToken[KeyLowPrice].Value<decimal>(),
                 jToken[KeyVolume].Value<decimal>(),
                 jToken[KeyQuoteVolume].Value<decimal>(),
-                jToken[KeyOpenTime].Value<long>().ToDateTime(),
-                jToken[KeyCloseTime].Value<long>().ToDateTime(),
+                jToken[KeyOpenTime].Value<long>().ToDateTimeK(),
+                jToken[KeyCloseTime].Value<long>().ToDateTimeK(),
                 jToken[KeyFirstTradeId].Value<long>(),
                 jToken[KeyLastTradeId].Value<long>(),
                 jToken[KeyTradeCount].Value<long>());

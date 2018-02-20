@@ -37,7 +37,7 @@ namespace BinanceConsoleApp.Controllers
             //    trades = Program.AggregateTradeCache.Trades.Reverse().Take(limit); // get local cache.
 
             if (trades == null)
-                trades = (await Program.Api.GetAggregateTradesAsync(symbol, limit, token)).Reverse();
+                trades = (await Program.BinanceApi.GetAggregateTradesAsync(symbol, limit, token)).Reverse();
 
             lock (Program.ConsoleSync)
             {

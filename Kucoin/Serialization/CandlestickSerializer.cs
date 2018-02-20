@@ -33,13 +33,13 @@ namespace Kucoin.Serialization
             return new Candlestick(
                 jToken[KeySymbol]?.Value<string>(),
                 jToken[KeyInterval].Value<string>().ToCandlestickInterval(),
-                jToken[KeyOpenTime].Value<long>().ToDateTime(),
+                jToken[KeyOpenTime].Value<long>().ToDateTimeK(),
                 jToken[KeyOpen].Value<decimal>(),
                 jToken[KeyHigh].Value<decimal>(),
                 jToken[KeyLow].Value<decimal>(),
                 jToken[KeyClose].Value<decimal>(),
                 jToken[KeyVolume].Value<decimal>(),
-                jToken[KeyCloseTime].Value<long>().ToDateTime(),
+                jToken[KeyCloseTime].Value<long>().ToDateTimeK(),
                 jToken[KeyQuoteAssetVolume].Value<decimal>(),
                 jToken[KeyNumberOfTrades].Value<long>(),
                 jToken[KeyTakerBuyBaseAssetVolume].Value<decimal>(),
@@ -56,14 +56,14 @@ namespace Kucoin.Serialization
             return JArray.Parse(json).Select(item => new Candlestick(
                 symbol, interval,
                 item[0].Value<long>()
-                    .ToDateTime(),        // open time
+                    .ToDateTimeK(),        // open time
                 item[1].Value<decimal>(), // open
                 item[2].Value<decimal>(), // high
                 item[3].Value<decimal>(), // low
                 item[4].Value<decimal>(), // close
                 item[5].Value<decimal>(), // volume
                 item[6].Value<long>()
-                    .ToDateTime(),        // close time
+                    .ToDateTimeK(),        // close time
                 item[7].Value<decimal>(), // quote asset volume
                 item[8].Value<long>(),    // number of trades
                 item[9].Value<decimal>(), // taker buy base asset volume
@@ -79,13 +79,13 @@ namespace Kucoin.Serialization
             {
                 new JProperty(KeySymbol, candlestick.Symbol),
                 new JProperty(KeyInterval, candlestick.Interval.AsString()),
-                new JProperty(KeyOpenTime, candlestick.OpenTime.ToTimestamp()),
+                new JProperty(KeyOpenTime, candlestick.OpenTime.ToTimestampK()),
                 new JProperty(KeyOpen, candlestick.Open.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyHigh, candlestick.High.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyLow, candlestick.Low.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyClose, candlestick.Close.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyVolume, candlestick.Volume.ToString(CultureInfo.InvariantCulture)),
-                new JProperty(KeyCloseTime, candlestick.CloseTime.ToTimestamp()),
+                new JProperty(KeyCloseTime, candlestick.CloseTime.ToTimestampK()),
                 new JProperty(KeyQuoteAssetVolume, candlestick.QuoteAssetVolume.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyNumberOfTrades, candlestick.NumberOfTrades),
                 new JProperty(KeyTakerBuyBaseAssetVolume, candlestick.TakerBuyBaseAssetVolume.ToString(CultureInfo.InvariantCulture)),

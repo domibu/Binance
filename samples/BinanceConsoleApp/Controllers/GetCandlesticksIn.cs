@@ -34,7 +34,7 @@ namespace BinanceConsoleApp.Controllers
 
             long.TryParse(args[4], out var endTime);
 
-            var candlesticks = await Program.Api.GetCandlesticksAsync(symbol, interval, (startTime, endTime), token: token);
+            var candlesticks = await Program.BinanceApi.GetCandlesticksAsync(symbol, interval, (startTime, endTime), token: token);
 
             lock (Program.ConsoleSync)
             {

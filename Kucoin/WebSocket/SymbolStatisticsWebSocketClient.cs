@@ -94,7 +94,7 @@ namespace Kucoin.WebSocket
                 if (args.Json.IsJsonArray())
                 {
                     // Simulate a single event time.
-                    var eventTime = DateTime.UtcNow.ToTimestamp().ToDateTime();
+                    var eventTime = DateTime.UtcNow.ToTimestampK().ToDateTimeK();
 
                     var statistics = JArray.Parse(args.Json).Select(DeserializeSymbolStatistics).ToArray();
 
@@ -108,7 +108,7 @@ namespace Kucoin.WebSocket
 
                     if (eventType == "24hrTicker")
                     {
-                        var eventTime = jObject["E"].Value<long>().ToDateTime();
+                        var eventTime = jObject["E"].Value<long>().ToDateTimeK();
 
                         var statistics = DeserializeSymbolStatistics(jObject);
 
@@ -177,9 +177,9 @@ namespace Kucoin.WebSocket
                 jToken["v"].Value<decimal>(), // base asset volume
                 jToken["q"].Value<decimal>(), // quote asset volume
                 jToken["O"].Value<long>()
-                    .ToDateTime(),            // open time
+                    .ToDateTimeK(),            // open time
                 jToken["C"].Value<long>()
-                    .ToDateTime(),            // close time
+                    .ToDateTimeK(),            // close time
                 jToken["F"].Value<long>(),    // first trade ID
                 jToken["L"].Value<long>(),    // last trade ID
                 jToken["n"].Value<long>());   // trade count

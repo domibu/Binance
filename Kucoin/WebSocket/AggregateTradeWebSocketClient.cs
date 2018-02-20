@@ -80,7 +80,7 @@ namespace Kucoin.WebSocket
 
                 if (eventType == "aggTrade")
                 {
-                    var eventTime = jObject["E"].Value<long>().ToDateTime();
+                    var eventTime = jObject["E"].Value<long>().ToDateTimeK();
 
                     var trade = new AggregateTrade(
                         jObject["s"].Value<string>(),  // symbol
@@ -90,7 +90,7 @@ namespace Kucoin.WebSocket
                         jObject["f"].Value<long>(),    // first trade ID
                         jObject["l"].Value<long>(),    // last trade ID
                         jObject["T"].Value<long>()     // trade time
-                            .ToDateTime(),
+                            .ToDateTimeK(),
                         jObject["m"].Value<bool>(),    // is buyer the market maker?
                         jObject["M"].Value<bool>());   // is best price match?
 

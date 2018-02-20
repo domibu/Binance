@@ -24,7 +24,7 @@ namespace BinanceConsoleApp.Controllers
             {
                 // TODO: If live statistics cache is active (for all symbols), get cached data.
 
-                var allStats = await Program.Api.Get24HourStatisticsAsync(token);
+                var allStats = await Program.BinanceApi.Get24HourStatisticsAsync(token);
 
                 foreach (var stats in allStats)
                 {
@@ -35,7 +35,7 @@ namespace BinanceConsoleApp.Controllers
             {
                 // TODO: If live statistics cache is active (for symbol), get cached data.
 
-                var stats = await Program.Api.Get24HourStatisticsAsync(symbol, token);
+                var stats = await Program.BinanceApi.Get24HourStatisticsAsync(symbol, token);
                 Program.Display(stats);
             }
 

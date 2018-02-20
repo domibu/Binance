@@ -58,8 +58,8 @@ namespace BinanceConsoleApp.Controllers
             }
 
             var orders = openOrders
-                ? await Program.Api.GetOpenOrdersAsync(Program.User, symbol, token: token)
-                : await Program.Api.GetOrdersAsync(Program.User, symbol, limit: limit, token: token);
+                ? await Program.BinanceApi.GetOpenOrdersAsync(Program.User, symbol, token: token)
+                : await Program.BinanceApi.GetOrdersAsync(Program.User, symbol, limit: limit, token: token);
 
             lock (Program.ConsoleSync)
             {

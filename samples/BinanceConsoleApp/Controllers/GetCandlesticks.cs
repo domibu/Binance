@@ -44,7 +44,7 @@ namespace BinanceConsoleApp.Controllers
             //    candlesticks = Program.CandlestickCache.Candlesticks.Reverse().Take(limit); // get local cache.
 
             if (candlesticks == null)
-                candlesticks = await Program.Api.GetCandlesticksAsync(symbol, interval, limit, token: token);
+                candlesticks = await Program.BinanceApi.GetCandlesticksAsync(symbol, interval, limit, token: token);
 
             lock (Program.ConsoleSync)
             {

@@ -50,7 +50,7 @@ namespace Kucoin.Serialization
                 new JProperty(KeyId, trade.Id),
                 new JProperty(KeyPrice, trade.Price.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyQuantity, trade.Quantity.ToString(CultureInfo.InvariantCulture)),
-                new JProperty(KeyTime, trade.Time.ToTimestamp()),
+                new JProperty(KeyTime, trade.Time.ToTimestampK()),
                 new JProperty(KeyIsBuyerMaker, trade.IsBuyerMaker),
                 new JProperty(KeyIsBestPriceMatch, trade.IsBestPriceMatch)
             };
@@ -77,7 +77,7 @@ namespace Kucoin.Serialization
                 jToken[KeyQuantity].Value<decimal>(),                         // quantity
                 jToken[KeyBuyerOrderId]?.Value<long>() ?? KucoinApi.NullId,  // buyer order ID
                 jToken[KeySellerOrderId]?.Value<long>() ?? KucoinApi.NullId, // seller order ID
-                jToken[KeyTime].Value<long>().ToDateTime(),                   // time
+                jToken[KeyTime].Value<long>().ToDateTimeK(),                   // time
                 jToken[KeyIsBuyerMaker].Value<bool>(),                        // is buyer maker
                 jToken[KeyIsBestPriceMatch].Value<bool>());                   // is best price match
         }

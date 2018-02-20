@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <UserSecretsId>BinanceConsoleApp</UserSecretsId>
   </PropertyGroup>
 
@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Kucoin\Kucoin.csproj" />
     <ProjectReference Include="..\..\src\Binance\Binance.csproj" />
     <ProjectReference Include="..\Binance.Application\Binance.Application.csproj" />
     <ProjectReference Include="..\Binance.WebSocket.WebSocket4Net\Binance.WebSocket.WebSocket4Net.csproj" />

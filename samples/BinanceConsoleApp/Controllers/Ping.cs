@@ -11,7 +11,7 @@ namespace BinanceConsoleApp.Controllers
             if (!command.Equals("ping", StringComparison.OrdinalIgnoreCase))
                 return false;
 
-            var isSuccessful = await Program.Api.PingAsync(token);
+            var isSuccessful = await Program.BinanceApi.PingAsync(token);
 
             lock (Program.ConsoleSync)
             {

@@ -87,7 +87,7 @@ namespace Kucoin.WebSocket
                         var symbol = args.StreamName.Split('@')[0].ToUpperInvariant();
                         
                         // Simulate event time.
-                        var eventTime = DateTime.UtcNow.ToTimestamp().ToDateTime();
+                        var eventTime = DateTime.UtcNow.ToTimestampK().ToDateTimeK();
 
                         var lastUpdateId = jObject["lastUpdateId"].Value<long>();
 
@@ -100,7 +100,7 @@ namespace Kucoin.WebSocket
                     case "depthUpdate":
                     {
                         var symbol = jObject["s"].Value<string>();
-                        var eventTime = jObject["E"].Value<long>().ToDateTime();
+                        var eventTime = jObject["E"].Value<long>().ToDateTimeK();
 
                         var firstUpdateId = jObject["U"].Value<long>();
                         var lastUpdateId = jObject["u"].Value<long>();

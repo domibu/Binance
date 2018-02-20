@@ -29,7 +29,7 @@ namespace BinanceConsoleApp.Controllers
                 asset = args[1];
             }
 
-            var withdrawals = await Program.Api.GetWithdrawalsAsync(Program.User, asset, token: token);
+            var withdrawals = await Program.BinanceApi.GetWithdrawalsAsync(Program.User, asset, token: token);
 
             lock (Program.ConsoleSync)
             {

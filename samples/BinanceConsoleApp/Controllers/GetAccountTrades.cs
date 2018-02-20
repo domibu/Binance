@@ -73,15 +73,15 @@ namespace BinanceConsoleApp.Controllers
             IEnumerable<AccountTrade> trades = null;
             if (orderId >= 0)
             {
-                var order = await Program.Api.GetOrderAsync(Program.User, symbol, orderId, token: token);
+                var order = await Program.BinanceApi.GetOrderAsync(Program.User, symbol, orderId, token: token);
                 if (order != null)
                 {
-                    trades = await Program.Api.GetTradesAsync(order, token: token);
+                    trades = await Program.BinanceApi.GetTradesAsync(order, token: token);
                 }
             }
             else
             {
-                trades = await Program.Api.GetAccountTradesAsync(Program.User, symbol, limit: limit, token: token);
+                trades = await Program.BinanceApi.GetAccountTradesAsync(Program.User, symbol, limit: limit, token: token);
             }
 
             lock (Program.ConsoleSync)

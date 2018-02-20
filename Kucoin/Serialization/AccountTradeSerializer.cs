@@ -54,7 +54,7 @@ namespace Kucoin.Serialization
                 new JProperty(KeyQuantity, trade.Quantity.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyCommission, trade.Commission.ToString(CultureInfo.InvariantCulture)),
                 new JProperty(KeyCommissionAsset, trade.CommissionAsset),
-                new JProperty(KeyTime, trade.Time.ToTimestamp()),
+                new JProperty(KeyTime, trade.Time.ToTimestampK()),
                 new JProperty(KeyIsBuyer, trade.IsBuyer),
                 new JProperty(KeyIsMaker, trade.IsMaker),
                 new JProperty(KeyIsBestPriceMatch, trade.IsBestPriceMatch)
@@ -75,7 +75,7 @@ namespace Kucoin.Serialization
                     jToken[KeyQuantity].Value<decimal>(),
                     jToken[KeyCommission].Value<decimal>(),
                     jToken[KeyCommissionAsset].Value<string>(),
-                    jToken[KeyTime].Value<long>().ToDateTime(),
+                    jToken[KeyTime].Value<long>().ToDateTimeK(),
                     jToken[KeyIsBuyer].Value<bool>(),
                     jToken[KeyIsMaker].Value<bool>(),
                     jToken[KeyIsBestPriceMatch].Value<bool>());
@@ -89,7 +89,7 @@ namespace Kucoin.Serialization
                 jToken["qty"].Value<decimal>(),
                 jToken["commission"].Value<decimal>(),
                 jToken["commissionAsset"].Value<string>(),
-                jToken["time"].Value<long>().ToDateTime(),
+                jToken["time"].Value<long>().ToDateTimeK(),
                 jToken["isBuyer"].Value<bool>(),
                 jToken["isMaker"].Value<bool>(),
                 jToken["isBestMatch"].Value<bool>());

@@ -80,7 +80,7 @@ namespace Kucoin.WebSocket
 
                 if (eventType == "trade")
                 {
-                    var eventTime = jObject["E"].Value<long>().ToDateTime();
+                    var eventTime = jObject["E"].Value<long>().ToDateTimeK();
 
                     var trade = new Trade(
                         jObject["s"].Value<string>(),  // symbol
@@ -90,7 +90,7 @@ namespace Kucoin.WebSocket
                         jObject["b"].Value<long>(),    // buyer order ID
                         jObject["a"].Value<long>(),    // seller order ID
                         jObject["T"].Value<long>()
-                            .ToDateTime(),             // trade time
+                            .ToDateTimeK(),             // trade time
                         jObject["m"].Value<bool>(),    // is buyer the market maker?
                         jObject["M"].Value<bool>());   // is best price match?
 

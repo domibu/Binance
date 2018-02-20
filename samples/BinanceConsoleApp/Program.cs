@@ -14,6 +14,8 @@ using Binance.WebSocket;
 using Binance.WebSocket.Manager;
 using Binance.WebSocket.UserData;
 using BinanceConsoleApp.Controllers;
+using Kucoin;
+using Kucoin.Api;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -28,8 +30,11 @@ namespace BinanceConsoleApp
         public static IConfigurationRoot Configuration;
 
         public static IServiceProvider ServiceProvider;
+        public static IServiceProvider KucoinServiceProvider;
 
-        public static IBinanceApi Api;
+        public static IKucoinApi KucoinApi;
+
+        public static IBinanceApi BinanceApi;
         public static IBinanceApiUser User;
 
         public static IBinanceWebSocketManager ClientManager;
@@ -68,6 +73,7 @@ namespace BinanceConsoleApp
                 // Configure services.
                ServiceProvider = new ServiceCollection()
                     .AddBinance()
+                    .AddKucoin()
                     // Use a single web socket stream for combined streams (optional).
                     .AddSingleton<IWebSocketStream, BinanceWebSocketStream>()
                     // Change low-level web socket client implementation.
@@ -76,7 +82,8 @@ namespace BinanceConsoleApp
                     .AddOptions()
                     .AddLogging(builder => builder.SetMinimumLevel(LogLevel.Trace))
                     .Configure<BinanceApiOptions>(Configuration.GetSection("ApiOptions"))
-                    .Configure<UserDataWebSocketManagerOptions>(Configuration.GetSection("UserDataOptions"))
+                    .Configure<KucoinApiOptions>(Configuration.GetSection("ApiOptions"))
+                    .Configure<Binance.UserDataWebSocketManagerOptions>(Configuration.GetSection("UserDataOptions"))
                     .BuildServiceProvider();
 
                 // Configure logging.
@@ -103,7 +110,8 @@ namespace BinanceConsoleApp
                         .CreateUser(apiKey, apiSecret);
                 }
 
-                Api = ServiceProvider.GetService<IBinanceApi>();
+                BinanceApi = ServiceProvider.GetService<IBinanceApi>();
+                KucoinApi = ServiceProvider.GetService<IKucoinApi>();
 
                 ClientManager = ServiceProvider.GetService<IBinanceWebSocketManager>();
                 ClientManager.Error += (s, e) =>

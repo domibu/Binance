@@ -38,7 +38,7 @@ namespace BinanceConsoleApp.Controllers
             if (args.Length > 4)
                 name = args[4];
 
-            await Program.Api.WithdrawAsync(new WithdrawRequest(Program.User)
+            await Program.BinanceApi.WithdrawAsync(new WithdrawRequest(Program.User)
             {
                 Asset = asset,
                 Address = address,

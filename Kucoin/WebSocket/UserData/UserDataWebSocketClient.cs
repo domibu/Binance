@@ -107,7 +107,7 @@ namespace Kucoin.WebSocket.UserData
                 var jObject = JObject.Parse(args.Json);
 
                 var eventType = jObject["e"].Value<string>();
-                var eventTime = jObject["E"].Value<long>().ToDateTime();
+                var eventTime = jObject["E"].Value<long>().ToDateTimeK();
 
                 // ReSharper disable once ConvertIfStatementToSwitchStatement
                 if (eventType == "outboundAccountInfo")
@@ -130,7 +130,7 @@ namespace Kucoin.WebSocket.UserData
                             entry["l"].Value<decimal>())) // locked amount
                         .ToList();
 
-                    var eventArgs = new AccountUpdateEventArgs(eventTime, args.Token, new AccountInfo(user, commissions, status, jObject["u"].Value<long>().ToDateTime(), balances));
+                    var eventArgs = new AccountUpdateEventArgs(eventTime, args.Token, new AccountInfo(user, commissions, status, jObject["u"].Value<long>().ToDateTimeK(), balances));
 
                     try
                     {
@@ -171,7 +171,7 @@ namespace Kucoin.WebSocket.UserData
                             jObject["n"].Value<decimal>(), // commission
                             jObject["N"].Value<string>(),  // commission asset
                             jObject["T"].Value<long>()
-                                .ToDateTime(),             // time
+                                .ToDateTimeK(),             // time
                             order.Side == OrderSide.Buy,   // is buyer
                             jObject["m"].Value<bool>(),    // is buyer maker
                             jObject["M"].Value<bool>());   // is best price
@@ -249,7 +249,7 @@ namespace Kucoin.WebSocket.UserData
         {
             order.Symbol = jToken["s"].Value<string>();
             order.Id = jToken["i"].Value<long>();
-            order.Time = jToken["T"].Value<long>().ToDateTime();
+            order.Time = jToken["T"].Value<long>().ToDateTimeK();
             order.Price = jToken["p"].Value<decimal>();
             order.OriginalQuantity = jToken["q"].Value<decimal>();
             order.ExecutedQuantity = jToken["z"].Value<decimal>();

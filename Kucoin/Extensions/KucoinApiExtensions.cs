@@ -25,7 +25,7 @@ namespace Kucoin.Api
 
             var timestamp = await api.GetTimestampAsync(token).ConfigureAwait(false);
 
-            return timestamp.ToDateTime();
+            return timestamp.ToDateTimeK();
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Kucoin.Api
         {
             Throw.IfNull(api, nameof(api));
 
-            return api.GetAggregateTradesAsync(symbol, timeInterval.Item1.ToDateTime(), timeInterval.Item2.ToDateTime(), token);
+            return api.GetAggregateTradesAsync(symbol, timeInterval.Item1.ToDateTimeK(), timeInterval.Item2.ToDateTimeK(), token);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Kucoin.Api
             if (endTime.Kind != DateTimeKind.Utc)
                 throw new ArgumentException("Date/Time must be UTC.", nameof(endTime));
 
-            return api.GetCandlesticksAsync(symbol, interval, limit, startTime.ToTimestamp(), endTime.ToTimestamp(), token);
+            return api.GetCandlesticksAsync(symbol, interval, limit, startTime.ToTimestampK(), endTime.ToTimestampK(), token);
         }
 
         /// <summary>

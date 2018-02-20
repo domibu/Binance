@@ -21,7 +21,7 @@ namespace BinanceConsoleApp.Controllers
                 return true;
             }
 
-            if (!Enum.TryParse(typeof(OrderSide), args[1], true, out var side))
+            if (!Enum.TryParse(args[1], out OrderSide side))
             {
                 lock (Program.ConsoleSync)
                     Console.WriteLine("A valid order side is required ('buy' or 'sell').");
@@ -69,7 +69,7 @@ namespace BinanceConsoleApp.Controllers
 
             if (Program.IsOrdersTestOnly)
             {
-                await Program.Api.TestPlaceAsync(clientOrder, token: token);
+                await Program.BinanceApi.TestPlaceAsync(clientOrder, token: token);
 
                 lock (Program.ConsoleSync)
                 {
@@ -78,7 +78,7 @@ namespace BinanceConsoleApp.Controllers
             }
             else
             {
-                var order = await Program.Api.PlaceAsync(clientOrder, token: token);
+                var order = await Program.BinanceApi.PlaceAsync(clientOrder, token: token);
 
                 // ReSharper disable once InvertIf
                 if (order != null)

@@ -21,7 +21,7 @@ namespace BinanceConsoleApp.Controllers
                 asset = args[1];
             }
 
-            Program.Display(await Program.Api.GetDepositAddressAsync(Program.User, asset, token));
+            Program.Display(await Program.BinanceApi.GetDepositAddressAsync(Program.User, asset, token));
 
             return true;
         }

@@ -14,7 +14,7 @@ namespace Kucoin
         {
             Throw.IfNull(chronological, nameof(chronological));
 
-            return chronological.Time.ToTimestamp();
+            return chronological.Time.ToTimestampK();
         }
     }
 }
