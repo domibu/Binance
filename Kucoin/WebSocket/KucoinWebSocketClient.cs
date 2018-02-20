@@ -9,9 +9,9 @@ using Microsoft.Extensions.Logging;
 namespace Kucoin.WebSocket
 {
     /// <summary>
-    /// Abstract Binance web socket client base class.
+    /// Abstract Kucoin web socket client base class.
     /// </summary>
-    public abstract class BinanceWebSocketClient<TEventArgs> : IBinanceWebSocketClient
+    public abstract class KucoinWebSocketClient<TEventArgs> : IKucoinWebSocketClient
         where TEventArgs : EventArgs
     {
         #region Public Events
@@ -51,7 +51,7 @@ namespace Kucoin.WebSocket
         /// </summary>
         /// <param name="webSocket"></param>
         /// <param name="logger"></param>
-        protected BinanceWebSocketClient(IWebSocketStream webSocket, ILogger logger = null)
+        protected KucoinWebSocketClient(IWebSocketStream webSocket, ILogger logger = null)
         {
             Throw.IfNull(webSocket, nameof(webSocket));
 
@@ -86,7 +86,7 @@ namespace Kucoin.WebSocket
         {
             if (!Subscribers.ContainsKey(args.StreamName))
             {
-                Logger?.LogDebug($"{nameof(BinanceWebSocketClient<TEventArgs>)}.{nameof(WebSocketCallback)} - Ignoring event for non-subscribed stream: \"{args.StreamName}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                Logger?.LogDebug($"{nameof(KucoinWebSocketClient<TEventArgs>)}.{nameof(WebSocketCallback)} - Ignoring event for non-subscribed stream: \"{args.StreamName}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                 return; // ignore.
             }
 
@@ -104,7 +104,7 @@ namespace Kucoin.WebSocket
 
             if (!Subscribers.ContainsKey(stream))
             {
-                Logger?.LogDebug($"{nameof(BinanceWebSocketClient<TEventArgs>)}.{nameof(SubscribeStream)}: Adding stream (\"{stream}\").  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                Logger?.LogDebug($"{nameof(KucoinWebSocketClient<TEventArgs>)}.{nameof(SubscribeStream)}: Adding stream (\"{stream}\").  [thread: {Thread.CurrentThread.ManagedThreadId}]");
 
                 Subscribers[stream] = new List<Action<TEventArgs>>();
                 WebSocket.Subscribe(stream, WebSocketCallback);
@@ -113,7 +113,7 @@ namespace Kucoin.WebSocket
             // ReSharper disable once InvertIf
             if (callback != null && !Subscribers[stream].Contains(callback))
             {
-                Logger?.LogDebug($"{nameof(BinanceWebSocketClient<TEventArgs>)}.{nameof(SubscribeStream)}: Adding callback for stream (\"{stream}\").  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                Logger?.LogDebug($"{nameof(KucoinWebSocketClient<TEventArgs>)}.{nameof(SubscribeStream)}: Adding callback for stream (\"{stream}\").  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                 Subscribers[stream].Add(callback);
             }
         }
@@ -131,7 +131,7 @@ namespace Kucoin.WebSocket
             {
                 if (Subscribers[stream].Contains(callback))
                 {
-                    Logger?.LogDebug($"{nameof(BinanceWebSocketClient<TEventArgs>)}.{nameof(UnsubscribeStream)}: Removing callback for stream (\"{stream}\").  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                    Logger?.LogDebug($"{nameof(KucoinWebSocketClient<TEventArgs>)}.{nameof(UnsubscribeStream)}: Removing callback for stream (\"{stream}\").  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                     Subscribers[stream].Remove(callback);
                 }
             }
@@ -141,7 +141,7 @@ namespace Kucoin.WebSocket
             {
                 WebSocket.Unsubscribe(stream, WebSocketCallback);
 
-                Logger?.LogDebug($"{nameof(BinanceWebSocketClient<TEventArgs>)}.{nameof(UnsubscribeStream)}: Removing stream (\"{stream}\").  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                Logger?.LogDebug($"{nameof(KucoinWebSocketClient<TEventArgs>)}.{nameof(UnsubscribeStream)}: Removing stream (\"{stream}\").  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                 Subscribers.Remove(stream);
             }
         }

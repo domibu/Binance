@@ -1,6 +1,6 @@
 ﻿namespace Kucoin
 {
-    public enum BinanceStatus
+    public enum KucoinStatus
     {
         /// <summary>
         /// Normal operation.

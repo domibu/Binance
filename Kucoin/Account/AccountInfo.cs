@@ -15,7 +15,7 @@ namespace Kucoin.Account
         /// <summary>
         /// Get the account user.
         /// </summary>
-        public IBinanceApiUser User { get; }
+        public IKucoinApiUser User { get; }
 
         /// <summary>
         /// Get the account commissions.
@@ -49,7 +49,7 @@ namespace Kucoin.Account
         /// <param name="status">The account status.</param>
         /// <param name="time">The update time.</param>
         /// <param name="balances">The account balances.</param>
-        public AccountInfo(IBinanceApiUser user, AccountCommissions commissions, AccountStatus status, DateTime time, IEnumerable<AccountBalance> balances = null)
+        public AccountInfo(IKucoinApiUser user, AccountCommissions commissions, AccountStatus status, DateTime time, IEnumerable<AccountBalance> balances = null)
         {
             Throw.IfNull(user, nameof(user));
             Throw.IfNull(commissions, nameof(commissions));

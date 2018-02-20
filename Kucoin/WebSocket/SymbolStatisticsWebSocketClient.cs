@@ -13,7 +13,7 @@ namespace Kucoin.WebSocket
     /// <summary>
     /// A <see cref="ISymbolStatisticsWebSocketClient"/> implementation.
     /// </summary>
-    public class SymbolStatisticsWebSocketClient : BinanceWebSocketClient<SymbolStatisticsEventArgs>, ISymbolStatisticsWebSocketClient
+    public class SymbolStatisticsWebSocketClient : KucoinWebSocketClient<SymbolStatisticsEventArgs>, ISymbolStatisticsWebSocketClient
     {
         #region Public Events
 
@@ -27,7 +27,7 @@ namespace Kucoin.WebSocket
         /// Default constructor provides default web socket stream, but no logging.
         /// </summary>
         public SymbolStatisticsWebSocketClient()
-            : this(new BinanceWebSocketStream())
+            : this(new KucoinWebSocketStream())
         { }
 
         /// <summary>

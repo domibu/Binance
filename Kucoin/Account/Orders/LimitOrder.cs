@@ -31,7 +31,7 @@ namespace Kucoin.Account.Orders
 
         #region Constructors
 
-        public LimitOrder(IBinanceApiUser user)
+        public LimitOrder(IKucoinApiUser user)
             : base(user)
         { }
 

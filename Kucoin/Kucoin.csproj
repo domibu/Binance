@@ -37,15 +37,11 @@
 
   <ItemGroup>
     <Folder Include="Account\Orders\" />
-    <Folder Include="Api\Exceptions\" />
-    <Folder Include="Api\User\" />
     <Folder Include="Api\RateLimit\" />
     <Folder Include="Market\" />
-    <Folder Include="Extensions\" />
     <Folder Include="Cache\" />
     <Folder Include="Options\" />
     <Folder Include="Serialization\" />
-    <Folder Include="WebSocket\" />
     <Folder Include="Utility\" />
   </ItemGroup>
 

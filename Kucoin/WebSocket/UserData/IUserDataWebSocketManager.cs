@@ -35,6 +35,6 @@ namespace Kucoin.WebSocket.UserData
         /// <param name="callback"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task SubscribeAndStreamAsync(IBinanceApiUser user, Action<UserDataEventArgs> callback, CancellationToken token = default);
+        Task SubscribeAndStreamAsync(IKucoinApiUser user, Action<UserDataEventArgs> callback, CancellationToken token = default);
     }
 }

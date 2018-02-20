@@ -218,7 +218,7 @@ namespace Kucoin.Market
             if (tradeCount < 0)
                 throw new ArgumentException($"{nameof(SymbolStatistics)}: trade count must be greater than or equal to 0.", nameof(tradeCount));
 
-            // TODO: Binance API stream occasionally returns invalid trade counts...
+            // TODO: Kucoin API stream occasionally returns invalid trade counts...
             //if (tradeCount != 0 && tradeCount != lastTradeId - firstTradeId + 1)
             //    throw new ArgumentException($"{nameof(SymbolStatistics)}: trade count must be equal to last trade ID - first trade ID + 1.", nameof(tradeCount));
 

@@ -21,7 +21,7 @@ namespace Kucoin.Cache
 
         #region Constructors
 
-        public AccountInfoCache(IBinanceApi api, IUserDataWebSocketManager manager, ILogger<AccountInfoCache> logger = null)
+        public AccountInfoCache(IKucoinApi api, IUserDataWebSocketManager manager, ILogger<AccountInfoCache> logger = null)
             : base(api, manager, logger)
         { }
 
@@ -29,7 +29,7 @@ namespace Kucoin.Cache
 
         #region Public Methods
 
-        public Task SubscribeAndStreamAsync(IBinanceApiUser user, Action<AccountInfoCacheEventArgs> callback, CancellationToken token = default)
+        public Task SubscribeAndStreamAsync(IKucoinApiUser user, Action<AccountInfoCacheEventArgs> callback, CancellationToken token = default)
         {
             Throw.IfNull(user, nameof(user));
 

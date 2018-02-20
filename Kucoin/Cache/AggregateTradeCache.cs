@@ -46,7 +46,7 @@ namespace Kucoin.Cache
 
         #region Constructors
 
-        public AggregateTradeCache(IBinanceApi api, IAggregateTradeWebSocketClient client, ILogger<AggregateTradeCache> logger = null)
+        public AggregateTradeCache(IKucoinApi api, IAggregateTradeWebSocketClient client, ILogger<AggregateTradeCache> logger = null)
             : base(api, client, logger)
         {
             _trades = new Queue<AggregateTrade>();

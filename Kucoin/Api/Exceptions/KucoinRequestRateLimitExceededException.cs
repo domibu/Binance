@@ -4,19 +4,19 @@
 namespace Kucoin.Api
 {
     /// <summary>
-    /// Binance request rate limit exceeded exception.
+    /// Kucoin request rate limit exceeded exception.
     /// 
     /// HTTP 429 return code is used when breaking a request rate limit.
     /// When a 429 is recieved, it's your obligation as an API to back off and not spam the API.
     /// </summary>
-    public sealed class BinanceRequestRateLimitExceededException : BinanceHttpException
+    public sealed class KucoinRequestRateLimitExceededException : KucoinHttpException
     {
         #region Constructors
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        public BinanceRequestRateLimitExceededException(string reasonPhrase, int errorCode, string errorMessage)
+        public KucoinRequestRateLimitExceededException(string reasonPhrase, int errorCode, string errorMessage)
             : base((HttpStatusCode)429, reasonPhrase, errorCode, errorMessage)
         { }
 

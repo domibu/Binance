@@ -51,7 +51,7 @@ namespace Kucoin.WebSocket.UserData
 
         #region Private Fields
 
-        private readonly IBinanceApi _api;
+        private readonly IKucoinApi _api;
 
         private readonly IUserDataKeepAliveTimerProvider _timerProvider;
 
@@ -59,7 +59,7 @@ namespace Kucoin.WebSocket.UserData
 
         private readonly ILogger<UserDataWebSocketClient> _logger;
 
-        private IBinanceApiUser _user;
+        private IKucoinApiUser _user;
 
         private string _listenKey;
 
@@ -68,22 +68,22 @@ namespace Kucoin.WebSocket.UserData
         #region Constructors
 
         /// <summary> 
-        /// Default constructor provides default Binance API and web socket stream, 
+        /// Default constructor provides default Kucoin API and web socket stream, 
         /// but no options support or logging. 
         /// </summary> 
         public UserDataWebSocketManager()
-            : this(new BinanceApi(), new SingleUserDataWebSocketClient(), new UserDataKeepAliveTimerProvider())
+            : this(new KucoinApi(), new SingleUserDataWebSocketClient(), new UserDataKeepAliveTimerProvider())
         { }
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="api">The Binance API.</param>
+        /// <param name="api">The Kucoin API.</param>
         /// <param name="client">The user data web socket client.</param>
         /// <param name="timerProvider">The keep-alive timer provider.</param>
         /// <param name="options">The options.</param>
         /// <param name="logger">The logger.</param>
-        public UserDataWebSocketManager(IBinanceApi api, ISingleUserDataWebSocketClient client, IUserDataKeepAliveTimerProvider timerProvider, IOptions<UserDataWebSocketManagerOptions> options = null, ILogger<UserDataWebSocketClient> logger = null)
+        public UserDataWebSocketManager(IKucoinApi api, ISingleUserDataWebSocketClient client, IUserDataKeepAliveTimerProvider timerProvider, IOptions<UserDataWebSocketManagerOptions> options = null, ILogger<UserDataWebSocketClient> logger = null)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(client, nameof(client));
@@ -100,7 +100,7 @@ namespace Kucoin.WebSocket.UserData
 
         #region Public Methods
 
-        public async Task SubscribeAndStreamAsync(IBinanceApiUser user, Action<UserDataEventArgs> callback, CancellationToken token)
+        public async Task SubscribeAndStreamAsync(IKucoinApiUser user, Action<UserDataEventArgs> callback, CancellationToken token)
         {
             Throw.IfNull(user, nameof(user));
 

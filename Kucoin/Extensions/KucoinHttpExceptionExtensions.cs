@@ -4,14 +4,14 @@ namespace Kucoin.Api
     /// <summary>
     /// HTTP exception extensions to help interpret status codes.
     /// </summary>
-    public static class BinanceHttpExceptionExtensions
+    public static class KucoinHttpExceptionExtensions
     {
         /// <summary>
         /// HTTP 1xx return codes indicate that the request was received and understood.
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        public static bool IsInformational(this BinanceHttpException e)
+        public static bool IsInformational(this KucoinHttpException e)
         {
             return (int)e.StatusCode >= 100 && (int)e.StatusCode < 200;
         }
@@ -22,7 +22,7 @@ namespace Kucoin.Api
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        public static bool IsSuccessful(this BinanceHttpException e)
+        public static bool IsSuccessful(this KucoinHttpException e)
         {
             return (int)e.StatusCode >= 200 && (int)e.StatusCode < 300;
         }
@@ -33,7 +33,7 @@ namespace Kucoin.Api
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        public static bool IsRedirection(this BinanceHttpException e)
+        public static bool IsRedirection(this KucoinHttpException e)
         {
             return (int)e.StatusCode >= 300 && (int)e.StatusCode < 400;
         }
@@ -43,17 +43,17 @@ namespace Kucoin.Api
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        public static bool IsClientError(this BinanceHttpException e)
+        public static bool IsClientError(this KucoinHttpException e)
         {
             return (int)e.StatusCode >= 400 && (int)e.StatusCode < 500;
         }
 
         /// <summary>
-        /// HTTP 5xx return codes are used for internal errors; the issue is on Binance's side.
+        /// HTTP 5xx return codes are used for internal errors; the issue is on Kucoin's side.
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        public static bool IsServerError(this BinanceHttpException e)
+        public static bool IsServerError(this KucoinHttpException e)
         {
             return (int)e.StatusCode >= 500 && (int)e.StatusCode < 600;
         }

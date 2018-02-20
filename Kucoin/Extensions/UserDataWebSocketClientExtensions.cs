@@ -11,7 +11,7 @@ namespace Kucoin.WebSocket.UserData
         /// <param name="client"></param>
         /// <param name="listenKey"></param>
         /// <param name="user"></param>
-        public static void Subscribe(this IUserDataWebSocketClient client, string listenKey, IBinanceApiUser user)
+        public static void Subscribe(this IUserDataWebSocketClient client, string listenKey, IKucoinApiUser user)
             => client.Subscribe(listenKey, user, null);
 
         /// <summary>

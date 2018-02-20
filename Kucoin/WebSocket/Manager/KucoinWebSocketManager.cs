@@ -6,9 +6,9 @@ using Microsoft.Extensions.Logging;
 namespace Kucoin.WebSocket.Manager
 {
     /// <summary>
-    /// Multiple <see cref="IBinanceWebSocketClient"/> controller with automatic stream reconnect.
+    /// Multiple <see cref="IKucoinWebSocketClient"/> controller with automatic stream reconnect.
     /// </summary>
-    public sealed class BinanceWebSocketManager : IBinanceWebSocketManager
+    public sealed class KucoinWebSocketManager : IKucoinWebSocketManager
     {
         #region Public Events
 
@@ -40,7 +40,7 @@ namespace Kucoin.WebSocket.Manager
         private readonly SymbolStatisticsWebSocketClientAdapter _statisticsClientAdapter;
         private readonly TradeWebSocketClientAdapter _tradeClientAdapter;
 
-        private readonly ILogger<IBinanceWebSocketManager> _logger;
+        private readonly ILogger<IKucoinWebSocketManager> _logger;
 
         private readonly IDictionary<IWebSocketStream, WebSocketStreamController> _controllers
             = new Dictionary<IWebSocketStream, WebSocketStreamController>();
@@ -49,13 +49,13 @@ namespace Kucoin.WebSocket.Manager
 
         #region Constructors
 
-        public BinanceWebSocketManager(
+        public KucoinWebSocketManager(
             IAggregateTradeWebSocketClient aggregateTradeClient,
             ICandlestickWebSocketClient candlestickClient,
             IDepthWebSocketClient depthClient,
             ISymbolStatisticsWebSocketClient statisticsClient,
             ITradeWebSocketClient tradeClient,
-            ILogger<IBinanceWebSocketManager> logger = null)
+            ILogger<IKucoinWebSocketManager> logger = null)
         {
             Throw.IfNull(aggregateTradeClient, nameof(aggregateTradeClient));
             Throw.IfNull(candlestickClient, nameof(candlestickClient));
@@ -140,7 +140,7 @@ namespace Kucoin.WebSocket.Manager
         /// <param name="client">The client associated with the exception.</param>
         /// <param name="exception">The inner exception.</param>
         /// <param name="message">The exception message (optional).</param>
-        private void RaiseErrorEvent(IBinanceWebSocketClient client, Exception exception, string message = null)
+        private void RaiseErrorEvent(IKucoinWebSocketClient client, Exception exception, string message = null)
         {
             var args = new WebSocketManagerErrorEventArgs(
                 new WebSocketManagerException(client, message, exception));
@@ -149,7 +149,7 @@ namespace Kucoin.WebSocket.Manager
             catch (OperationCanceledException) { }
             catch (Exception e)
             {
-                _logger?.LogError(e, $"{nameof(BinanceWebSocketManager)}: Unhandled error event handler exception.");
+                _logger?.LogError(e, $"{nameof(KucoinWebSocketManager)}: Unhandled error event handler exception.");
             }
         }
 

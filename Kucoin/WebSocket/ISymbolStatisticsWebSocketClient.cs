@@ -3,7 +3,7 @@ using Kucoin.WebSocket.Events;
 
 namespace Kucoin.WebSocket
 {
-    public interface ISymbolStatisticsWebSocketClient : IBinanceWebSocketClient
+    public interface ISymbolStatisticsWebSocketClient : IKucoinWebSocketClient
     {
         /// <summary>
         /// The symbol statistics event.

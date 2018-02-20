@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Kucoin.WebSocket.UserData
 {
-    public class UserDataWebSocketClient : BinanceWebSocketClient<UserDataEventArgs>, IUserDataWebSocketClient
+    public class UserDataWebSocketClient : KucoinWebSocketClient<UserDataEventArgs>, IUserDataWebSocketClient
     {
         #region Public Events
 
@@ -26,8 +26,8 @@ namespace Kucoin.WebSocket.UserData
 
         #region Protected Fields
 
-        protected readonly IDictionary<string, IBinanceApiUser> ListenKeys
-            = new Dictionary<string, IBinanceApiUser>();
+        protected readonly IDictionary<string, IKucoinApiUser> ListenKeys
+            = new Dictionary<string, IKucoinApiUser>();
 
         #endregion Protected Fields
 
@@ -46,7 +46,7 @@ namespace Kucoin.WebSocket.UserData
 
         #region Public Methods
 
-        public virtual void Subscribe(string listenKey, IBinanceApiUser user, Action<UserDataEventArgs> callback)
+        public virtual void Subscribe(string listenKey, IKucoinApiUser user, Action<UserDataEventArgs> callback)
         {
             Throw.IfNullOrWhiteSpace(listenKey, nameof(listenKey));
             Throw.IfNull(user, nameof(user));

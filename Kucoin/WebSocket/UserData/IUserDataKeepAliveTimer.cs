@@ -8,11 +8,11 @@ namespace Kucoin.WebSocket.UserData
     {
         TimeSpan Period { get; set; }
 
-        IEnumerable<IBinanceApiUser> Users { get; }
+        IEnumerable<IKucoinApiUser> Users { get; }
 
-        void Add(IBinanceApiUser user, string listenKey);
+        void Add(IKucoinApiUser user, string listenKey);
 
-        void Remove(IBinanceApiUser user);
+        void Remove(IKucoinApiUser user);
 
         void RemoveAll();
     }

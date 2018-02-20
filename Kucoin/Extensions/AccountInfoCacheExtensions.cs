@@ -14,7 +14,7 @@ namespace Kucoin.Cache
         /// <param name="user"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task SubscribeAndStreamAsync(this IAccountInfoCache cache, IBinanceApiUser user, CancellationToken token)
+        public static Task SubscribeAndStreamAsync(this IAccountInfoCache cache, IKucoinApiUser user, CancellationToken token)
             => cache.SubscribeAndStreamAsync(user, null, token);
     }
 }

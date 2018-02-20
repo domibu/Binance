@@ -3,7 +3,7 @@ using Kucoin.WebSocket.Events;
 
 namespace Kucoin.WebSocket
 {
-    public interface ITradeWebSocketClient : IBinanceWebSocketClient
+    public interface ITradeWebSocketClient : IKucoinWebSocketClient
     {
         /// <summary>
         /// The trade event.

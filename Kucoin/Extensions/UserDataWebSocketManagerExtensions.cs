@@ -14,7 +14,7 @@ namespace Kucoin.WebSocket.UserData
         /// <param name="user"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task SubscribeAndStreamAsync(this IUserDataWebSocketManager manager, IBinanceApiUser user, CancellationToken token)
+        public static Task SubscribeAndStreamAsync(this IUserDataWebSocketManager manager, IKucoinApiUser user, CancellationToken token)
             => manager.SubscribeAndStreamAsync(user, null, token);
     }
 }

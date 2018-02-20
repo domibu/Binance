@@ -11,10 +11,10 @@ using Kucoin.Utility;
 namespace Kucoin.Api
 {
     /// <summary>
-    /// C# adapter for Binance Rest API using <see cref="IBinanceHttpClient"/>.
+    /// C# adapter for Kucoin Rest API using <see cref="IKucoinHttpClient"/>.
     /// All return values are either a JSON object or array.
     /// </summary>
-    public static class BinanceHttpClientExtensions
+    public static class KucoinHttpClientExtensions
     {
         #region General
 
@@ -24,7 +24,7 @@ namespace Kucoin.Api
         /// <param name="client"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> PingAsync(this IBinanceHttpClient client, CancellationToken token = default)
+        public static async Task<string> PingAsync(this IKucoinHttpClient client, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -34,7 +34,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            return await client.GetAsync("/api/v1/ping", token)
+            return await client.GetAsync("/v1/open/tick", token)
                 .ConfigureAwait(false);
         }
 
@@ -44,7 +44,7 @@ namespace Kucoin.Api
         /// <param name="client"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetExchangeInfoAsync(this IBinanceHttpClient client, CancellationToken token = default)
+        public static async Task<string> GetExchangeInfoAsync(this IKucoinHttpClient client, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -64,7 +64,7 @@ namespace Kucoin.Api
         /// <param name="client"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetServerTimeAsync(this IBinanceHttpClient client, CancellationToken token = default)
+        public static async Task<string> GetServerTimeAsync(this IKucoinHttpClient client, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -84,7 +84,7 @@ namespace Kucoin.Api
         /// <param name="client"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetSystemStatusAsync(this IBinanceHttpClient client, CancellationToken token = default)
+        public static async Task<string> GetSystemStatusAsync(this IKucoinHttpClient client, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -110,7 +110,7 @@ namespace Kucoin.Api
         /// <param name="limit">Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000].</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetOrderBookAsync(this IBinanceHttpClient client, string symbol, int limit = default, CancellationToken token = default)
+        public static async Task<string> GetOrderBookAsync(this IKucoinHttpClient client, string symbol, int limit = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
@@ -122,7 +122,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/depth");
+            var request = new KucoinHttpRequest("/api/v1/depth");
 
             request.AddParameter("symbol", symbol.FormatSymbol());
 
@@ -143,7 +143,7 @@ namespace Kucoin.Api
         /// <param name="limit"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetTradesAsync(this IBinanceHttpClient client, string symbol, int limit = default, CancellationToken token = default)
+        public static async Task<string> GetTradesAsync(this IKucoinHttpClient client, string symbol, int limit = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
@@ -154,7 +154,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/trades");
+            var request = new KucoinHttpRequest("/api/v1/trades");
 
             request.AddParameter("symbol", symbol.FormatSymbol());
 
@@ -175,7 +175,7 @@ namespace Kucoin.Api
         /// <param name="limit">Default 500; max 500.</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetTradesAsync(this IBinanceHttpClient client, string apiKey, string symbol, long fromId = BinanceApi.NullId, int limit = default, CancellationToken token = default)
+        public static async Task<string> GetTradesAsync(this IKucoinHttpClient client, string apiKey, string symbol, long fromId = KucoinApi.NullId, int limit = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
@@ -186,7 +186,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/historicalTrades")
+            var request = new KucoinHttpRequest("/api/v1/historicalTrades")
             {
                 ApiKey = apiKey
             };
@@ -215,7 +215,7 @@ namespace Kucoin.Api
         /// <param name="endTime">Timestamp in ms to get aggregate trades until INCLUSIVE.</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetAggregateTradesAsync(this IBinanceHttpClient client, string symbol, long fromId = BinanceApi.NullId, int limit = default, long startTime = default, long endTime = default, CancellationToken token = default)
+        public static async Task<string> GetAggregateTradesAsync(this IKucoinHttpClient client, string symbol, long fromId = KucoinApi.NullId, int limit = default, long startTime = default, long endTime = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
@@ -226,7 +226,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/aggTrades");
+            var request = new KucoinHttpRequest("/api/v1/aggTrades");
 
             request.AddParameter("symbol", symbol.FormatSymbol());
 
@@ -269,7 +269,7 @@ namespace Kucoin.Api
         /// <param name="endTime"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetCandlesticksAsync(this IBinanceHttpClient client, string symbol, CandlestickInterval interval, int limit = default, long startTime = default, long endTime = default, CancellationToken token = default)
+        public static async Task<string> GetCandlesticksAsync(this IKucoinHttpClient client, string symbol, CandlestickInterval interval, int limit = default, long startTime = default, long endTime = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
@@ -280,7 +280,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/klines");
+            var request = new KucoinHttpRequest("/api/v1/klines");
 
             request.AddParameter("symbol", symbol.FormatSymbol());
             request.AddParameter("interval", interval.AsString());
@@ -309,7 +309,7 @@ namespace Kucoin.Api
         /// <param name="endTime"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetCandlesticksAsync(this IBinanceHttpClient client, string symbol, string interval, int limit = default, long startTime = default, long endTime = default, CancellationToken token = default)
+        public static async Task<string> GetCandlesticksAsync(this IKucoinHttpClient client, string symbol, string interval, int limit = default, long startTime = default, long endTime = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -330,7 +330,7 @@ namespace Kucoin.Api
         /// <param name="symbol"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> Get24HourStatisticsAsync(this IBinanceHttpClient client, string symbol = null, CancellationToken token = default)
+        public static async Task<string> Get24HourStatisticsAsync(this IKucoinHttpClient client, string symbol = null, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -344,7 +344,7 @@ namespace Kucoin.Api
             }
 
             // When symbol is not provided use number of symbols that are TRADING for weight.
-            var request = new BinanceHttpRequest("/api/v1/ticker/24hr");
+            var request = new KucoinHttpRequest("/api/v1/ticker/24hr");
 
             if (!string.IsNullOrWhiteSpace(symbol))
             {
@@ -362,7 +362,7 @@ namespace Kucoin.Api
         /// <param name="symbol"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetPriceAsync(this IBinanceHttpClient client, string symbol = null, CancellationToken token = default)
+        public static async Task<string> GetPriceAsync(this IKucoinHttpClient client, string symbol = null, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -372,7 +372,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v3/ticker/price");
+            var request = new KucoinHttpRequest("/api/v3/ticker/price");
 
             if (!string.IsNullOrWhiteSpace(symbol))
             {
@@ -390,7 +390,7 @@ namespace Kucoin.Api
         /// <param name="symbol"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetOrderBookTopAsync(this IBinanceHttpClient client, string symbol, CancellationToken token = default)
+        public static async Task<string> GetOrderBookTopAsync(this IKucoinHttpClient client, string symbol, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNullOrWhiteSpace(symbol, nameof(symbol));
@@ -401,7 +401,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/ticker/bookTicker");
+            var request = new KucoinHttpRequest("/api/v1/ticker/bookTicker");
 
             request.AddParameter("symbol", symbol.FormatSymbol());
 
@@ -415,7 +415,7 @@ namespace Kucoin.Api
         /// <param name="client"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetOrderBookTopsAsync(this IBinanceHttpClient client, CancellationToken token = default)
+        public static async Task<string> GetOrderBookTopsAsync(this IKucoinHttpClient client, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -452,7 +452,7 @@ namespace Kucoin.Api
         /// <param name="newOrderRespType">Set the response JSON.</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> PlaceOrderAsync(this IBinanceHttpClient client, IBinanceApiUser user, string symbol, OrderSide side, OrderType type, decimal quantity, decimal price, string newClientOrderId = null, TimeInForce? timeInForce = null, decimal stopPrice = 0, decimal icebergQty = 0, long recvWindow = default, bool isTestOnly = false, PlaceOrderResponseType newOrderRespType = PlaceOrderResponseType.Result, CancellationToken token = default)
+        public static async Task<string> PlaceOrderAsync(this IKucoinHttpClient client, IKucoinApiUser user, string symbol, OrderSide side, OrderType type, decimal quantity, decimal price, string newClientOrderId = null, TimeInForce? timeInForce = null, decimal stopPrice = 0, decimal icebergQty = 0, long recvWindow = default, bool isTestOnly = false, PlaceOrderResponseType newOrderRespType = PlaceOrderResponseType.Result, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -470,7 +470,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest($"/api/v3/order{(isTestOnly ? "/test" : string.Empty)}")
+            var request = new KucoinHttpRequest($"/api/v3/order{(isTestOnly ? "/test" : string.Empty)}")
             {
                 ApiKey = user.ApiKey
             };
@@ -500,7 +500,7 @@ namespace Kucoin.Api
                     timeInForce = TimeInForce.GTC;
 
                 if (timeInForce != TimeInForce.GTC)
-                    throw new BinanceApiException("Any order with an icebergQty MUST have timeInForce set to GTC.");
+                    throw new KucoinApiException("Any order with an icebergQty MUST have timeInForce set to GTC.");
 
                 request.AddParameter("icebergQty", icebergQty);
             }
@@ -526,7 +526,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetOrderAsync(this IBinanceHttpClient client, IBinanceApiUser user, string symbol, long orderId = BinanceApi.NullId, string origClientOrderId = null, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> GetOrderAsync(this IKucoinHttpClient client, IKucoinApiUser user, string symbol, long orderId = KucoinApi.NullId, string origClientOrderId = null, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -544,7 +544,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v3/order")
+            var request = new KucoinHttpRequest("/api/v3/order")
             {
                 ApiKey = user.ApiKey
             };
@@ -579,7 +579,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> CancelOrderAsync(this IBinanceHttpClient client, IBinanceApiUser user, string symbol, long orderId = BinanceApi.NullId, string origClientOrderId = null, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> CancelOrderAsync(this IKucoinHttpClient client, IKucoinApiUser user, string symbol, long orderId = KucoinApi.NullId, string origClientOrderId = null, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -597,7 +597,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v3/order")
+            var request = new KucoinHttpRequest("/api/v3/order")
             {
                 ApiKey = user.ApiKey
             };
@@ -632,7 +632,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetOpenOrdersAsync(this IBinanceHttpClient client, IBinanceApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> GetOpenOrdersAsync(this IKucoinHttpClient client, IKucoinApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -649,7 +649,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v3/openOrders")
+            var request = new KucoinHttpRequest("/api/v3/openOrders")
             {
                 ApiKey = user.ApiKey
             };
@@ -679,7 +679,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetOrdersAsync(this IBinanceHttpClient client, IBinanceApiUser user, string symbol, long orderId = BinanceApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> GetOrdersAsync(this IKucoinHttpClient client, IKucoinApiUser user, string symbol, long orderId = KucoinApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -694,7 +694,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v3/allOrders")
+            var request = new KucoinHttpRequest("/api/v3/allOrders")
             {
                 ApiKey = user.ApiKey
             };
@@ -725,7 +725,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetAccountInfoAsync(this IBinanceHttpClient client, IBinanceApiUser user, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> GetAccountInfoAsync(this IKucoinHttpClient client, IKucoinApiUser user, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -739,7 +739,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v3/account")
+            var request = new KucoinHttpRequest("/api/v3/account")
             {
                 ApiKey = user.ApiKey
             };
@@ -765,7 +765,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetAccountTradesAsync(this IBinanceHttpClient client, IBinanceApiUser user, string symbol, long fromId = BinanceApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> GetAccountTradesAsync(this IKucoinHttpClient client, IKucoinApiUser user, string symbol, long fromId = KucoinApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -780,7 +780,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v3/myTrades")
+            var request = new KucoinHttpRequest("/api/v3/myTrades")
             {
                 ApiKey = user.ApiKey
             };
@@ -816,7 +816,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> WithdrawAsync(this IBinanceHttpClient client, IBinanceApiUser user, string asset, string address, string addressTag, decimal amount, string name = null, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> WithdrawAsync(this IKucoinHttpClient client, IKucoinApiUser user, string asset, string address, string addressTag, decimal amount, string name = null, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -835,7 +835,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/wapi/v3/withdraw.html")
+            var request = new KucoinHttpRequest("/wapi/v3/withdraw.html")
             {
                 ApiKey = user.ApiKey
             };
@@ -872,7 +872,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetDepositsAsync(this IBinanceHttpClient client, IBinanceApiUser user, string asset = null, DepositStatus? status = null, long startTime = default, long endTime = default, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> GetDepositsAsync(this IKucoinHttpClient client, IKucoinApiUser user, string asset = null, DepositStatus? status = null, long startTime = default, long endTime = default, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -886,7 +886,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/wapi/v3/depositHistory.html")
+            var request = new KucoinHttpRequest("/wapi/v3/depositHistory.html")
             {
                 ApiKey = user.ApiKey
             };
@@ -925,7 +925,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetWithdrawalsAsync(this IBinanceHttpClient client, IBinanceApiUser user, string asset = null, WithdrawalStatus? status = null, long startTime = default, long endTime = default, long recvWindow = default, CancellationToken token = default)
+        public static async Task<string> GetWithdrawalsAsync(this IKucoinHttpClient client, IKucoinApiUser user, string asset = null, WithdrawalStatus? status = null, long startTime = default, long endTime = default, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNull(user, nameof(user));
@@ -939,7 +939,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/wapi/v3/withdrawHistory.html")
+            var request = new KucoinHttpRequest("/wapi/v3/withdrawHistory.html")
             {
                 ApiKey = user.ApiKey
             };
@@ -974,7 +974,7 @@ namespace Kucoin.Api
         /// <param name="asset"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetDepositAddressAsync(this IBinanceHttpClient client, IBinanceApiUser user, string asset, CancellationToken token = default)
+        public static async Task<string> GetDepositAddressAsync(this IKucoinHttpClient client, IKucoinApiUser user, string asset, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
             Throw.IfNullOrWhiteSpace(asset, nameof(asset));
@@ -985,7 +985,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/wapi/v3/depositAddress.html")
+            var request = new KucoinHttpRequest("/wapi/v3/depositAddress.html")
             {
                 ApiKey = user.ApiKey
             };
@@ -1006,7 +1006,7 @@ namespace Kucoin.Api
         /// <param name="user"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> GetAccountStatusAsync(this IBinanceHttpClient client, IBinanceApiUser user, CancellationToken token = default)
+        public static async Task<string> GetAccountStatusAsync(this IKucoinHttpClient client, IKucoinApiUser user, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -1016,7 +1016,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/wapi/v3/accountStatus.html")
+            var request = new KucoinHttpRequest("/wapi/v3/accountStatus.html")
             {
                 ApiKey = user.ApiKey
             };
@@ -1039,7 +1039,7 @@ namespace Kucoin.Api
         /// <param name="user"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<string> UserStreamStartAsync(this IBinanceHttpClient client, IBinanceApiUser user, CancellationToken token = default)
+        public static Task<string> UserStreamStartAsync(this IKucoinHttpClient client, IKucoinApiUser user, CancellationToken token = default)
         {
             Throw.IfNull(user, nameof(user));
 
@@ -1053,7 +1053,7 @@ namespace Kucoin.Api
         /// <param name="apiKey"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> UserStreamStartAsync(this IBinanceHttpClient client, string apiKey, CancellationToken token = default)
+        public static async Task<string> UserStreamStartAsync(this IKucoinHttpClient client, string apiKey, CancellationToken token = default)
         {
             Throw.IfNullOrWhiteSpace(apiKey, nameof(apiKey));
 
@@ -1063,7 +1063,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/userDataStream")
+            var request = new KucoinHttpRequest("/api/v1/userDataStream")
             {
                 ApiKey = apiKey
             };
@@ -1080,7 +1080,7 @@ namespace Kucoin.Api
         /// <param name="listenKey"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<string> UserStreamKeepAliveAsync(this IBinanceHttpClient client, IBinanceApiUser user, string listenKey, CancellationToken token = default)
+        public static Task<string> UserStreamKeepAliveAsync(this IKucoinHttpClient client, IKucoinApiUser user, string listenKey, CancellationToken token = default)
         {
             Throw.IfNull(user, nameof(user));
 
@@ -1095,7 +1095,7 @@ namespace Kucoin.Api
         /// <param name="listenKey"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> UserStreamKeepAliveAsync(this IBinanceHttpClient client, string apiKey, string listenKey, CancellationToken token = default)
+        public static async Task<string> UserStreamKeepAliveAsync(this IKucoinHttpClient client, string apiKey, string listenKey, CancellationToken token = default)
         {
             Throw.IfNullOrWhiteSpace(apiKey, nameof(apiKey));
             Throw.IfNullOrWhiteSpace(listenKey, nameof(listenKey));
@@ -1106,7 +1106,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/userDataStream")
+            var request = new KucoinHttpRequest("/api/v1/userDataStream")
             {
                 ApiKey = apiKey
             };
@@ -1128,7 +1128,7 @@ namespace Kucoin.Api
         /// <param name="listenKey"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<string> UserStreamCloseAsync(this IBinanceHttpClient client, IBinanceApiUser user, string listenKey, CancellationToken token = default)
+        public static Task<string> UserStreamCloseAsync(this IKucoinHttpClient client, IKucoinApiUser user, string listenKey, CancellationToken token = default)
         {
             Throw.IfNull(user, nameof(user));
 
@@ -1143,7 +1143,7 @@ namespace Kucoin.Api
         /// <param name="listenKey"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<string> UserStreamCloseAsync(this IBinanceHttpClient client, string apiKey, string listenKey, CancellationToken token = default)
+        public static async Task<string> UserStreamCloseAsync(this IKucoinHttpClient client, string apiKey, string listenKey, CancellationToken token = default)
         {
             Throw.IfNullOrWhiteSpace(apiKey, nameof(apiKey));
             Throw.IfNullOrWhiteSpace(listenKey, nameof(listenKey));
@@ -1154,7 +1154,7 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new BinanceHttpRequest("/api/v1/userDataStream")
+            var request = new KucoinHttpRequest("/api/v1/userDataStream")
             {
                 ApiKey = apiKey
             };

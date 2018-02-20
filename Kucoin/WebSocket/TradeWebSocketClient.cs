@@ -12,7 +12,7 @@ namespace Kucoin.WebSocket
     /// <summary>
     /// A <see cref="ITradeWebSocketClient"/> implementation.
     /// </summary>
-    public class TradeWebSocketClient : BinanceWebSocketClient<TradeEventArgs>, ITradeWebSocketClient
+    public class TradeWebSocketClient : KucoinWebSocketClient<TradeEventArgs>, ITradeWebSocketClient
     {
         #region Public Events
 
@@ -26,7 +26,7 @@ namespace Kucoin.WebSocket
         /// Default constructor provides default web socket client, but no logging.
         /// </summary>
         public TradeWebSocketClient()
-            : this(new BinanceWebSocketStream())
+            : this(new KucoinWebSocketStream())
         { }
 
         /// <summary>

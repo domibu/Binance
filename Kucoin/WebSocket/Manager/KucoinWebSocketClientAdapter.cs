@@ -6,8 +6,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Kucoin.WebSocket.Manager
 {
-    internal abstract class BinanceWebSocketClientAdapter<TWebSocketClient> : IBinanceWebSocketClient, IBinanceWebSocketClientAdapter
-        where TWebSocketClient : IBinanceWebSocketClient
+    internal abstract class KucoinWebSocketClientAdapter<TWebSocketClient> : IKucoinWebSocketClient, IKucoinWebSocketClientAdapter
+        where TWebSocketClient : IKucoinWebSocketClient
     {
         #region Public Events
 
@@ -39,11 +39,11 @@ namespace Kucoin.WebSocket.Manager
 
         protected ITaskController Controller => Manager.GetController(Client);
 
-        protected readonly IBinanceWebSocketManager Manager;
+        protected readonly IKucoinWebSocketManager Manager;
 
         protected readonly TWebSocketClient Client;
 
-        protected readonly ILogger<IBinanceWebSocketManager> Logger;
+        protected readonly ILogger<IKucoinWebSocketManager> Logger;
 
         protected readonly Action<Exception> OnError;
 
@@ -51,7 +51,7 @@ namespace Kucoin.WebSocket.Manager
 
         #region Constructors
 
-        protected BinanceWebSocketClientAdapter(IBinanceWebSocketManager manager, TWebSocketClient client, ILogger<IBinanceWebSocketManager> logger = null, Action<Exception> onError = null)
+        protected KucoinWebSocketClientAdapter(IKucoinWebSocketManager manager, TWebSocketClient client, ILogger<IKucoinWebSocketManager> logger = null, Action<Exception> onError = null)
         {
             Throw.IfNull(manager, nameof(manager));
             Throw.IfNull(client, nameof(client));

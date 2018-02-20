@@ -29,7 +29,7 @@ namespace Kucoin.WebSocket.UserData
         }
         private TimeSpan _period = TimeSpan.FromMilliseconds(PeriodDefault);
 
-        public IEnumerable<IBinanceApiUser> Users
+        public IEnumerable<IKucoinApiUser> Users
         {
             get { lock (_sync) return _listenKeys.Keys; }
         }
@@ -38,11 +38,11 @@ namespace Kucoin.WebSocket.UserData
 
         #region Private Fields
 
-        private readonly IBinanceApi _api;
+        private readonly IKucoinApi _api;
 
         private readonly ILogger<UserDataKeepAliveTimer> _logger;
 
-        private readonly IDictionary<IBinanceApiUser, string> _listenKeys;
+        private readonly IDictionary<IKucoinApiUser, string> _listenKeys;
 
         private readonly Timer _timer;
 
@@ -58,7 +58,7 @@ namespace Kucoin.WebSocket.UserData
         /// Default constructor without logging capability.
         /// </summary>
         public UserDataKeepAliveTimer()
-            : this(new BinanceApi())
+            : this(new KucoinApi())
         { }
 
         /// <summary>
@@ -66,14 +66,14 @@ namespace Kucoin.WebSocket.UserData
         /// </summary>
         /// <param name="api"></param>
         /// <param name="logger"></param>
-        public UserDataKeepAliveTimer(IBinanceApi api, ILogger <UserDataKeepAliveTimer> logger = null)
+        public UserDataKeepAliveTimer(IKucoinApi api, ILogger <UserDataKeepAliveTimer> logger = null)
         {
             Throw.IfNull(api, nameof(api));
 
             _api = api;
             _logger = logger;
 
-            _listenKeys = new Dictionary<IBinanceApiUser, string>();
+            _listenKeys = new Dictionary<IKucoinApiUser, string>();
 
             _cts = new CancellationTokenSource();
 
@@ -84,7 +84,7 @@ namespace Kucoin.WebSocket.UserData
 
         #region Public Methods
 
-        public void Add(IBinanceApiUser user, string listenKey)
+        public void Add(IKucoinApiUser user, string listenKey)
         {
             Throw.IfNull(user, nameof(user));
             Throw.IfNullOrWhiteSpace(listenKey, nameof(listenKey));
@@ -97,7 +97,7 @@ namespace Kucoin.WebSocket.UserData
             }
         }
 
-        public void Remove(IBinanceApiUser user)
+        public void Remove(IKucoinApiUser user)
         {
             Throw.IfNull(user, nameof(user));
 
@@ -130,7 +130,7 @@ namespace Kucoin.WebSocket.UserData
         {
             try
             {
-                KeyValuePair<IBinanceApiUser, string>[] listenKeys;
+                KeyValuePair<IKucoinApiUser, string>[] listenKeys;
 
                 lock (_sync)
                 {

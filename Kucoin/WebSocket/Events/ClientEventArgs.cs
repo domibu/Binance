@@ -4,7 +4,7 @@ using System.Threading;
 namespace Kucoin.WebSocket.Events
 {
     /// <summary>
-    /// Binance web socket client event.
+    /// Kucoin web socket client event.
     /// </summary>
     public abstract class ClientEventArgs : EventArgs, IChronological
     {

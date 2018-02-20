@@ -4,7 +4,7 @@ using Kucoin.WebSocket.Events;
 
 namespace Kucoin.WebSocket.UserData
 {
-    public interface IUserDataWebSocketClient : IBinanceWebSocketClient
+    public interface IUserDataWebSocketClient : IKucoinWebSocketClient
     {
         /// <summary>
         /// The account update event.
@@ -28,7 +28,7 @@ namespace Kucoin.WebSocket.UserData
         /// <param name="listenKey">The listen key to subscribe.</param>
         /// <param name="user">The user.</param>
         /// <param name="callback">An event callback (optional).</param>
-        void Subscribe(string listenKey, IBinanceApiUser user, Action<UserDataEventArgs> callback);
+        void Subscribe(string listenKey, IKucoinApiUser user, Action<UserDataEventArgs> callback);
 
         /// <summary>
         /// Unsubscribe a callback from listen key events. If no callback is

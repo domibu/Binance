@@ -1,7 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace Kucoin.Api
 {
-    public interface IBinanceApiUserProvider
+    public interface IKucoinApiUserProvider
     {
         /// <summary>
         /// Create an API user.
@@ -9,6 +9,6 @@ namespace Kucoin.Api
         /// <param name="apiKey">The API key.</param>
         /// <param name="apiSecret">The API secret (optional)</param>
         /// <returns></returns>
-        IBinanceApiUser CreateUser(string apiKey, string apiSecret = null);
+        IKucoinApiUser CreateUser(string apiKey, string apiSecret = null);
     }
 }

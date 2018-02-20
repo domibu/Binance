@@ -22,12 +22,12 @@ namespace Kucoin.WebSocket.UserData
         public IWebSocketStream CreateStream()
         {
             if (_services == null)
-                return new BinanceWebSocketStream();
+                return new KucoinWebSocketStream();
 
             var client = _services.GetService<IWebSocketClient>();
             var loggerFactory = _services.GetService<ILoggerFactory>();
 
-            return new BinanceWebSocketStream(client, loggerFactory.CreateLogger<BinanceWebSocketStream>());
+            return new KucoinWebSocketStream(client, loggerFactory.CreateLogger<KucoinWebSocketStream>());
         }
     }
 }

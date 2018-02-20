@@ -4,7 +4,7 @@ using Kucoin.WebSocket.Events;
 
 namespace Kucoin.WebSocket
 {
-    public interface ICandlestickWebSocketClient : IBinanceWebSocketClient
+    public interface ICandlestickWebSocketClient : IKucoinWebSocketClient
     {
         /// <summary>
         /// The candlestick event.

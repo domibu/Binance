@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 // ReSharper disable once CheckNamespace
 namespace Kucoin.Api
 {
-    public static class BinanceApiExtensions
+    public static class KucoinApiExtensions
     {
         /// <summary>
         /// Get current server time.
@@ -19,7 +19,7 @@ namespace Kucoin.Api
         /// <param name="api"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<DateTime> GetTimeAsync(this IBinanceApi api, CancellationToken token = default)
+        public static async Task<DateTime> GetTimeAsync(this IKucoinApi api, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
 
@@ -34,7 +34,7 @@ namespace Kucoin.Api
         /// <param name="api"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<string>> SymbolsAsync(this IBinanceApi api, CancellationToken token = default)
+        public static async Task<IEnumerable<string>> SymbolsAsync(this IKucoinApi api, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
 
@@ -52,7 +52,7 @@ namespace Kucoin.Api
         /// <param name="limit"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<IEnumerable<Trade>> GetTradesFromAsync(this IBinanceApi api, IBinanceApiUser user, string symbol, long fromId, int limit = default, CancellationToken token = default)
+        public static Task<IEnumerable<Trade>> GetTradesFromAsync(this IKucoinApi api, IKucoinApiUser user, string symbol, long fromId, int limit = default, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(user, nameof(user));
@@ -68,7 +68,7 @@ namespace Kucoin.Api
         /// <param name="limit"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(this IBinanceApi api, AggregateTrade trade, int limit = default, CancellationToken token = default)
+        public static Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(this IKucoinApi api, AggregateTrade trade, int limit = default, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(trade, nameof(trade));
@@ -84,7 +84,7 @@ namespace Kucoin.Api
         /// <param name="timeInterval"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(this IBinanceApi api, string symbol, (DateTime, DateTime) timeInterval, CancellationToken token = default)
+        public static Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(this IKucoinApi api, string symbol, (DateTime, DateTime) timeInterval, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
 
@@ -99,7 +99,7 @@ namespace Kucoin.Api
         /// <param name="timeInterval"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(this IBinanceApi api, string symbol, (long, long) timeInterval, CancellationToken token = default)
+        public static Task<IEnumerable<AggregateTrade>> GetAggregateTradesAsync(this IKucoinApi api, string symbol, (long, long) timeInterval, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
 
@@ -117,7 +117,7 @@ namespace Kucoin.Api
         /// <param name="endTime"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<IEnumerable<Candlestick>> GetCandlesticksAsync(this IBinanceApi api, string symbol, string interval, int limit = default, long startTime = default, long endTime = default, CancellationToken token = default)
+        public static Task<IEnumerable<Candlestick>> GetCandlesticksAsync(this IKucoinApi api, string symbol, string interval, int limit = default, long startTime = default, long endTime = default, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
 
@@ -135,7 +135,7 @@ namespace Kucoin.Api
         /// <param name="limit">The maximum number of candles to return beginning from start time (optional).</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<IEnumerable<Candlestick>> GetCandlesticksAsync(this IBinanceApi api, string symbol, CandlestickInterval interval, DateTime startTime, DateTime endTime, int limit = default, CancellationToken token = default)
+        public static Task<IEnumerable<Candlestick>> GetCandlesticksAsync(this IKucoinApi api, string symbol, CandlestickInterval interval, DateTime startTime, DateTime endTime, int limit = default, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
 
@@ -157,7 +157,7 @@ namespace Kucoin.Api
         /// <param name="limit"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<IEnumerable<Candlestick>> GetCandlesticksAsync(this IBinanceApi api, string symbol, CandlestickInterval interval, (long, long) timeInterval, int limit = default, CancellationToken token = default)
+        public static Task<IEnumerable<Candlestick>> GetCandlesticksAsync(this IKucoinApi api, string symbol, CandlestickInterval interval, (long, long) timeInterval, int limit = default, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
 
@@ -173,7 +173,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<string> CancelAsync(this IBinanceApi api, Order order, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
+        public static Task<string> CancelAsync(this IKucoinApi api, Order order, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(order, nameof(order));
@@ -191,7 +191,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<string>> CancelAllOrdersAsync(this IBinanceApi api, IBinanceApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default)
+        public static async Task<IEnumerable<string>> CancelAllOrdersAsync(this IKucoinApi api, IKucoinApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
 
@@ -229,7 +229,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<AccountTrade>> GetTradesAsync(this IBinanceApi api, Order order, long recvWindow = default, CancellationToken token = default)
+        public static async Task<IEnumerable<AccountTrade>> GetTradesAsync(this IKucoinApi api, Order order, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(order, nameof(order));
@@ -284,7 +284,7 @@ namespace Kucoin.Api
         /// <param name="user"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task<string> UserStreamStartAsync(this IBinanceApi api, IBinanceApiUser user, CancellationToken token = default)
+        public static Task<string> UserStreamStartAsync(this IKucoinApi api, IKucoinApiUser user, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(user, nameof(user));
@@ -300,7 +300,7 @@ namespace Kucoin.Api
         /// <param name="listenKey"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task UserStreamKeepAliveAsync(this IBinanceApi api, IBinanceApiUser user, string listenKey, CancellationToken token = default)
+        public static Task UserStreamKeepAliveAsync(this IKucoinApi api, IKucoinApiUser user, string listenKey, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(user, nameof(user));
@@ -316,7 +316,7 @@ namespace Kucoin.Api
         /// <param name="listenKey"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static Task UserStreamCloseAsync(this IBinanceApi api, IBinanceApiUser user, string listenKey, CancellationToken token = default)
+        public static Task UserStreamCloseAsync(this IKucoinApi api, IKucoinApiUser user, string listenKey, CancellationToken token = default)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(user, nameof(user));

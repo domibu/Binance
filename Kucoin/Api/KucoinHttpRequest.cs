@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Kucoin.Api
 {
-    public sealed class BinanceHttpRequest
+    public sealed class KucoinHttpRequest
     {
         #region Public Properties
 
@@ -70,7 +70,7 @@ namespace Kucoin.Api
         /// Constructor.
         /// </summary>
         /// <param name="path"></param>
-        public BinanceHttpRequest(string path)
+        public KucoinHttpRequest(string path)
         {
             Throw.IfNullOrWhiteSpace(path, nameof(path));
 
@@ -86,10 +86,10 @@ namespace Kucoin.Api
             Throw.IfNull(value, nameof(value));
 
             if (_parameters.ContainsKey(field))
-                throw new InvalidOperationException($"{nameof(BinanceHttpRequest)}: request already has a '{field}' parameter.");
+                throw new InvalidOperationException($"{nameof(KucoinHttpRequest)}: request already has a '{field}' parameter.");
 
             if (_parameters.ContainsKey("signature"))
-                throw new InvalidOperationException($"{nameof(BinanceHttpRequest)}: all parameters must be added before request is signed.");
+                throw new InvalidOperationException($"{nameof(KucoinHttpRequest)}: all parameters must be added before request is signed.");
 
             _parameters[field] = Convert.ToString(value, CultureInfo.InvariantCulture);
 
@@ -106,7 +106,7 @@ namespace Kucoin.Api
             }
 
             if (method == HttpMethod.Get && Body != null)
-                throw new InvalidOperationException($"{nameof(BinanceHttpRequest)}: parameters must be sent in query string for GET requests ({nameof(Body)} must be null).");
+                throw new InvalidOperationException($"{nameof(KucoinHttpRequest)}: parameters must be sent in query string for GET requests ({nameof(Body)} must be null).");
 
             if (Body != null)
             {

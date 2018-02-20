@@ -11,7 +11,7 @@ namespace Kucoin.Account.Orders
         /// <summary>
         /// Get the user.
         /// </summary>
-        public IBinanceApiUser User { get; }
+        public IKucoinApiUser User { get; }
 
         /// <summary>
         /// Get or set the symbol.
@@ -51,7 +51,7 @@ namespace Kucoin.Account.Orders
         /// Constructor.
         /// </summary>
         /// <param name="user"></param>
-        protected ClientOrder(IBinanceApiUser user)
+        protected ClientOrder(IKucoinApiUser user)
         {
             Throw.IfNull(user, nameof(user));
 

@@ -15,7 +15,7 @@ namespace Kucoin.Account.Orders
         /// <summary>
         /// Get the user.
         /// </summary>
-        public IBinanceApiUser User { get; internal set; }
+        public IKucoinApiUser User { get; internal set; }
 
         /// <summary>
         /// Get the symbol.
@@ -116,7 +116,7 @@ namespace Kucoin.Account.Orders
         /// <param name="isWorking"></param>
         /// <param name="fills"></param>
         public Order(
-            IBinanceApiUser user,
+            IKucoinApiUser user,
             string symbol,
             long id,
             string clientOrderId,
@@ -172,7 +172,7 @@ namespace Kucoin.Account.Orders
         /// <summary>
         /// Internal constructor.
         /// </summary>
-        internal Order(IBinanceApiUser user)
+        internal Order(IKucoinApiUser user)
         {
             Throw.IfNull(user, nameof(user));
 

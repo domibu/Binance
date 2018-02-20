@@ -24,7 +24,7 @@ namespace Kucoin.Api
 
         #region Public Methods
 
-        public async Task<long> GetTimestampAsync(IBinanceHttpClient client, CancellationToken token = default)
+        public async Task<long> GetTimestampAsync(IKucoinHttpClient client, CancellationToken token = default)
         {
             Throw.IfNull(client, nameof(client));
 

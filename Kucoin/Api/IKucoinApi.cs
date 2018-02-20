@@ -9,14 +9,14 @@ using Kucoin.Market;
 
 namespace Kucoin.Api
 {
-    public interface IBinanceApi
+    public interface IKucoinApi
     {
         #region Properties
 
         /// <summary>
         /// The (low-level) HTTP client.
         /// </summary>
-        IBinanceHttpClient HttpClient { get; }
+        IKucoinHttpClient HttpClient { get; }
 
         #endregion Properties
 
@@ -47,7 +47,7 @@ namespace Kucoin.Api
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<BinanceStatus> GetSystemStatusAsync(CancellationToken token = default);
+        Task<KucoinStatus> GetSystemStatusAsync(CancellationToken token = default);
 
         #endregion Connectivity
 
@@ -202,7 +202,7 @@ namespace Kucoin.Api
 
         /// <summary>
         /// Place a TEST order. The client order properties determine order side, type, etc.
-        /// Throws a <see cref="BinanceApiException"/> if the order placement test fails.
+        /// Throws a <see cref="KucoinApiException"/> if the order placement test fails.
         /// </summary>
         /// <param name="clientOrder"></param>
         /// <param name="recvWindow"></param>
@@ -219,7 +219,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<Order> GetOrderAsync(IBinanceApiUser user, string symbol, long orderId, long recvWindow = default, CancellationToken token = default);
+        Task<Order> GetOrderAsync(IKucoinApiUser user, string symbol, long orderId, long recvWindow = default, CancellationToken token = default);
 
         /// <summary>
         /// Get order by original client order ID.
@@ -230,7 +230,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<Order> GetOrderAsync(IBinanceApiUser user, string symbol, string origClientOrderId, long recvWindow = default, CancellationToken token = default);
+        Task<Order> GetOrderAsync(IKucoinApiUser user, string symbol, string origClientOrderId, long recvWindow = default, CancellationToken token = default);
 
         /// <summary>
         /// Get latest order status (fill in place and return the order instance).
@@ -251,7 +251,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<string> CancelOrderAsync(IBinanceApiUser user, string symbol, long orderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default);
+        Task<string> CancelOrderAsync(IKucoinApiUser user, string symbol, long orderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default);
 
         /// <summary>
         /// Cancel an order by original client order ID.
@@ -263,7 +263,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<string> CancelOrderAsync(IBinanceApiUser user, string symbol, string origClientOrderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default);
+        Task<string> CancelOrderAsync(IKucoinApiUser user, string symbol, string origClientOrderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default);
 
         /// <summary>
         /// Get all open orders on a symbol or all symbols.
@@ -273,7 +273,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<IEnumerable<Order>> GetOpenOrdersAsync(IBinanceApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default);
+        Task<IEnumerable<Order>> GetOpenOrdersAsync(IKucoinApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default);
 
         /// <summary>
         /// Get all account orders; active, canceled, or filled.
@@ -286,7 +286,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<IEnumerable<Order>> GetOrdersAsync(IBinanceApiUser user, string symbol, long orderId = BinanceApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default);
+        Task<IEnumerable<Order>> GetOrdersAsync(IKucoinApiUser user, string symbol, long orderId = KucoinApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default);
 
         /// <summary>
         /// Get current account information.
@@ -295,7 +295,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<AccountInfo> GetAccountInfoAsync(IBinanceApiUser user, long recvWindow = default, CancellationToken token = default);
+        Task<AccountInfo> GetAccountInfoAsync(IKucoinApiUser user, long recvWindow = default, CancellationToken token = default);
 
         /// <summary>
         /// Get trades for a specific account and symbol.
@@ -307,7 +307,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IBinanceApiUser user, string symbol, long fromId = BinanceApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default);
+        Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IKucoinApiUser user, string symbol, long fromId = KucoinApi.NullId, int limit = default, long recvWindow = default, CancellationToken token = default);
 
         /// <summary>
         /// Submit a withdraw request.
@@ -329,7 +329,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<IEnumerable<Deposit>> GetDepositsAsync(IBinanceApiUser user, string asset, DepositStatus? status = null, long startTime = 0, long endTime = 0, long recvWindow = 0, CancellationToken token = default);
+        Task<IEnumerable<Deposit>> GetDepositsAsync(IKucoinApiUser user, string asset, DepositStatus? status = null, long startTime = 0, long endTime = 0, long recvWindow = 0, CancellationToken token = default);
 
         /// <summary>
         /// Get the withdrawal history.
@@ -342,7 +342,7 @@ namespace Kucoin.Api
         /// <param name="recvWindow"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<IEnumerable<Withdrawal>> GetWithdrawalsAsync(IBinanceApiUser user, string asset, WithdrawalStatus? status = null, long startTime = 0, long endTime = 0, long recvWindow = 0, CancellationToken token = default);
+        Task<IEnumerable<Withdrawal>> GetWithdrawalsAsync(IKucoinApiUser user, string asset, WithdrawalStatus? status = null, long startTime = 0, long endTime = 0, long recvWindow = 0, CancellationToken token = default);
 
         /// <summary>
         /// Get the deposit address for an asset.
@@ -351,7 +351,7 @@ namespace Kucoin.Api
         /// <param name="asset"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<DepositAddress> GetDepositAddressAsync(IBinanceApiUser user, string asset, CancellationToken token = default);
+        Task<DepositAddress> GetDepositAddressAsync(IKucoinApiUser user, string asset, CancellationToken token = default);
 
         /// <summary>
         /// Get account status.
@@ -359,7 +359,7 @@ namespace Kucoin.Api
         /// <param name="user"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<string> GetAccountStatusAsync(IBinanceApiUser user, CancellationToken token = default);
+        Task<string> GetAccountStatusAsync(IKucoinApiUser user, CancellationToken token = default);
 
         #endregion Account
 

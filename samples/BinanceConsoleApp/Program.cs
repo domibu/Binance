@@ -86,10 +86,10 @@ namespace BinanceConsoleApp
                         .AddFile(Configuration.GetSection("Logging:File"));
 
                 var apiKey = Configuration["BinanceApiKey"] // user secrets configuration.
-                    ?? Configuration.GetSection("User")["ApiKey"]; // appsettings.json configuration.
+                    ?? Configuration.GetSection("BinanceUser")["ApiKey"]; // appsettings.json configuration.
 
                 var apiSecret = Configuration["BinanceApiSecret"] // user secrets configuration.
-                    ?? Configuration.GetSection("User")["ApiSecret"]; // appsettings.json configuration.
+                    ?? Configuration.GetSection("BinanceUser")["ApiSecret"]; // appsettings.json configuration.
 
                 if (string.IsNullOrWhiteSpace(apiKey) || string.IsNullOrWhiteSpace(apiSecret))
                 {

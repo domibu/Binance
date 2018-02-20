@@ -4,15 +4,15 @@ using Kucoin.Utility;
 namespace Kucoin.WebSocket.Manager
 {
     /// <summary>
-    /// A facade for managing multiple <see cref="IBinanceWebSocketClient"/>
+    /// A facade for managing multiple <see cref="IKucoinWebSocketClient"/>
     /// implementations. Clients are controlled via adapter implementations
     /// that automatically cancel streaming before subscribe/unsubscribe
     /// and automaically re-enable streaming afterwards (if not disabled).
     /// The familiar client interfaces presented imply synchronous operation,
     /// but the subscribe/unsubscribe operations are done asynchronously.
-    /// Cast client to IBinanceWebSocketClientAdapter for access to Task.
+    /// Cast client to IKucoinWebSocketClientAdapter for access to Task.
     /// </summary>
-    public interface IBinanceWebSocketManager : IDisposable
+    public interface IKucoinWebSocketManager : IDisposable
     {
         /// <summary>
         /// The error event. Raised when exceptions occur from client task

@@ -25,7 +25,7 @@ namespace Kucoin.WebSocket.UserData
             : base(streamProvider.CreateStream(), logger)
         { }
 
-        public override void Subscribe(string listenKey, IBinanceApiUser user, Action<UserDataEventArgs> callback)
+        public override void Subscribe(string listenKey, IKucoinApiUser user, Action<UserDataEventArgs> callback)
         {
             Throw.IfNull(user, nameof(user));
 

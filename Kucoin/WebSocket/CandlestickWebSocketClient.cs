@@ -12,7 +12,7 @@ namespace Kucoin.WebSocket
     /// <summary>
     /// A <see cref="ICandlestickWebSocketClient"/> implementation.
     /// </summary>
-    public class CandlestickWebSocketClient : BinanceWebSocketClient<CandlestickEventArgs>, ICandlestickWebSocketClient
+    public class CandlestickWebSocketClient : KucoinWebSocketClient<CandlestickEventArgs>, ICandlestickWebSocketClient
     {
         #region Public Events
 
@@ -26,7 +26,7 @@ namespace Kucoin.WebSocket
         /// Default constructor provides default web socket stream, but no logging.
         /// </summary>
         public CandlestickWebSocketClient()
-            : this(new BinanceWebSocketStream())
+            : this(new KucoinWebSocketStream())
         { }
 
         /// <summary>

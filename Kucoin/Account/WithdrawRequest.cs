@@ -10,7 +10,7 @@ namespace Kucoin.Account
         /// <summary>
         /// Get the user.
         /// </summary>
-        public IBinanceApiUser User { get; }
+        public IKucoinApiUser User { get; }
 
         /// <summary>
         /// Get or set the asset.
@@ -57,7 +57,7 @@ namespace Kucoin.Account
         /// Constructor.
         /// </summary>
         /// <param name="user"></param>
-        public WithdrawRequest(IBinanceApiUser user)
+        public WithdrawRequest(IKucoinApiUser user)
         {
             Throw.IfNull(user, nameof(user));
 

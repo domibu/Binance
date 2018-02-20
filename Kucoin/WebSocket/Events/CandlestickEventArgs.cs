@@ -19,12 +19,12 @@ namespace Kucoin.WebSocket.Events
         public Candlestick Candlestick { get; }
 
         /// <summary>
-        /// Get the first trade ID. Can be <see cref="BinanceApi.NullId"/>.
+        /// Get the first trade ID. Can be <see cref="KucoinApi.NullId"/>.
         /// </summary>
         public long FirstTradeId { get; }
 
         /// <summary>
-        /// Get the last trade ID. Can be <see cref="BinanceApi.NullId"/>.
+        /// Get the last trade ID. Can be <see cref="KucoinApi.NullId"/>.
         /// </summary>
         public long LastTradeId { get; }
 
@@ -51,10 +51,10 @@ namespace Kucoin.WebSocket.Events
         {
             Throw.IfNull(candlestick, nameof(candlestick));
 
-            if (firstTradeId < 0 && firstTradeId != BinanceApi.NullId)
-                throw new ArgumentException($"{nameof(CandlestickEventArgs)}: ID must be greater than 0 (or {nameof(BinanceApi.NullId)}: {BinanceApi.NullId}).", nameof(firstTradeId));
-            if (lastTradeId < 0 && lastTradeId != BinanceApi.NullId)
-                throw new ArgumentException($"{nameof(CandlestickEventArgs)}: ID must be greater than 0 (or {nameof(BinanceApi.NullId)}: {BinanceApi.NullId}).", nameof(lastTradeId));
+            if (firstTradeId < 0 && firstTradeId != KucoinApi.NullId)
+                throw new ArgumentException($"{nameof(CandlestickEventArgs)}: ID must be greater than 0 (or {nameof(KucoinApi.NullId)}: {KucoinApi.NullId}).", nameof(firstTradeId));
+            if (lastTradeId < 0 && lastTradeId != KucoinApi.NullId)
+                throw new ArgumentException($"{nameof(CandlestickEventArgs)}: ID must be greater than 0 (or {nameof(KucoinApi.NullId)}: {KucoinApi.NullId}).", nameof(lastTradeId));
             if (lastTradeId < firstTradeId)
                 throw new ArgumentException($"{nameof(CandlestickEventArgs)}: Last trade ID must be greater than or equal to first trade ID.", nameof(lastTradeId));
 

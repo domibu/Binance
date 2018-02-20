@@ -3,7 +3,7 @@
 // ReSharper disable once CheckNamespace
 namespace Kucoin.Api
 {
-    public interface IBinanceApiUser : IDisposable
+    public interface IKucoinApiUser : IDisposable
     {
         #region Public Properties
 

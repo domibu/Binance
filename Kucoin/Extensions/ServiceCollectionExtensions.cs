@@ -14,29 +14,29 @@ namespace Kucoin
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddBinance(this IServiceCollection services)
+        public static IServiceCollection AddKucoin(this IServiceCollection services)
         {
             // API
-            services.AddSingleton<IBinanceApiUserProvider, BinanceApiUserProvider>();
+            services.AddSingleton<IKucoinApiUserProvider, KucoinApiUserProvider>();
             services.AddSingleton<ITimestampProvider, TimestampProvider>();
-            services.AddSingleton<IBinanceHttpClient>(s =>
+            services.AddSingleton<IKucoinHttpClient>(s =>
             {
-                if (!BinanceHttpClient.Initializer.IsValueCreated)
+                if (!KucoinHttpClient.Initializer.IsValueCreated)
                 {
                     // Replace initializer.
-                    BinanceHttpClient.Initializer = new Lazy<BinanceHttpClient>(() =>
-                        new BinanceHttpClient(
+                    KucoinHttpClient.Initializer = new Lazy<KucoinHttpClient>(() =>
+                        new KucoinHttpClient(
                             s.GetService<ITimestampProvider>(),
                             s.GetService<IApiRateLimiter>(),
-                            s.GetService<IOptions<BinanceApiOptions>>(),
-                            s.GetService<ILogger<BinanceHttpClient>>()), true);
+                            s.GetService<IOptions<KucoinApiOptions>>(),
+                            s.GetService<ILogger<KucoinHttpClient>>()), true);
                 }
 
-                return BinanceHttpClient.Instance;
+                return KucoinHttpClient.Instance;
             });
             services.AddTransient<IApiRateLimiter, ApiRateLimiter>();
             services.AddTransient<IRateLimiter, RateLimiter>();
-            services.AddSingleton<IBinanceApi, BinanceApi>();
+            services.AddSingleton<IKucoinApi, KucoinApi>();
 
             // Cache
             services.AddTransient<ITradeCache, TradeCache>();
@@ -48,7 +48,7 @@ namespace Kucoin
 
             // WebSocket
             services.AddTransient<IWebSocketClient, DefaultWebSocketClient>();
-            services.AddTransient<IWebSocketStream, BinanceWebSocketStream>();
+            services.AddTransient<IWebSocketStream, KucoinWebSocketStream>();
             services.AddSingleton<IWebSocketStreamProvider, WebSocketStreamProvider>();
             services.AddTransient<ITradeWebSocketClient, TradeWebSocketClient>();
             services.AddTransient<IDepthWebSocketClient, DepthWebSocketClient>();
@@ -60,7 +60,7 @@ namespace Kucoin
             services.AddTransient<IUserDataKeepAliveTimer, UserDataKeepAliveTimer>();
             services.AddTransient<IUserDataKeepAliveTimerProvider, UserDataKeepAliveTimerProvider>();
             services.AddTransient<IUserDataWebSocketManager, UserDataWebSocketManager>();
-            services.AddTransient<IBinanceWebSocketManager, BinanceWebSocketManager>();
+            services.AddTransient<IKucoinWebSocketManager, KucoinWebSocketManager>();
 
             // Serialization
             services.AddSingleton<IOrderBookTopSerializer, OrderBookTopSerializer>();

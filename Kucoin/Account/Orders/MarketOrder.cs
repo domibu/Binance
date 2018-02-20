@@ -15,7 +15,7 @@ namespace Kucoin.Account.Orders
 
         #region Constructors
 
-        public MarketOrder(IBinanceApiUser user)
+        public MarketOrder(IKucoinApiUser user)
             : base(user)
         { }
 

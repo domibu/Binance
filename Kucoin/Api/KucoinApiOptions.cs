@@ -1,7 +1,7 @@
 ﻿// ReSharper disable once CheckNamespace
 namespace Kucoin
 {
-    public sealed class BinanceApiOptions
+    public sealed class KucoinApiOptions
     {
         #region Public Constants
 

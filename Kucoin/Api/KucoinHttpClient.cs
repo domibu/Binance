@@ -11,14 +11,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Kucoin.Api
 {
-    public sealed class BinanceHttpClient : IBinanceHttpClient
+    public sealed class KucoinHttpClient : IKucoinHttpClient
     {
         #region Public Constants
 
         /// <summary>
         /// Get the base endpoint URL.
         /// </summary>
-        public static readonly string EndpointUrl = "https://api.binance.com";
+        public static readonly string EndpointUrl = "https://api.kucoin.com";
 
         /// <summary>
         /// Get the successful test response string.
@@ -32,13 +32,13 @@ namespace Kucoin.Api
         /// <summary>
         /// Singleton.
         /// </summary>
-        public static BinanceHttpClient Instance => Initializer.Value;
+        public static KucoinHttpClient Instance => Initializer.Value;
 
         public ITimestampProvider TimestampProvider { get; set; }
 
         public IApiRateLimiter RateLimiter { get; set; }
 
-        public BinanceApiOptions Options { get; }
+        public KucoinApiOptions Options { get; }
 
         #endregion Public Properties
 
@@ -47,8 +47,8 @@ namespace Kucoin.Api
         /// <summary>
         /// Lazy initializer.
         /// </summary>
-        internal static Lazy<BinanceHttpClient> Initializer
-            = new Lazy<BinanceHttpClient>(() => new BinanceHttpClient(), true);
+        internal static Lazy<KucoinHttpClient> Initializer
+            = new Lazy<KucoinHttpClient>(() => new KucoinHttpClient(), true);
 
         #endregion Internal
 
@@ -56,7 +56,7 @@ namespace Kucoin.Api
 
         private readonly HttpClient _httpClient;
 
-        private readonly ILogger<BinanceHttpClient> _logger;
+        private readonly ILogger<KucoinHttpClient> _logger;
 
         #endregion Private Fields
 
@@ -69,11 +69,11 @@ namespace Kucoin.Api
         /// <param name="rateLimiter">The rate limiter (auto configured).</param>
         /// <param name="options">The options.</param>
         /// <param name="logger">The logger.</param>
-        internal BinanceHttpClient(ITimestampProvider timestampProvider = null, IApiRateLimiter rateLimiter = null, IOptions<BinanceApiOptions> options = null, ILogger<BinanceHttpClient> logger = null)
+        internal KucoinHttpClient(ITimestampProvider timestampProvider = null, IApiRateLimiter rateLimiter = null, IOptions<KucoinApiOptions> options = null, ILogger<KucoinHttpClient> logger = null)
         {
             TimestampProvider = timestampProvider ?? new TimestampProvider();
             RateLimiter = rateLimiter ?? new ApiRateLimiter();
-            Options = options?.Value ?? new BinanceApiOptions();
+            Options = options?.Value ?? new KucoinApiOptions();
             _logger = logger;
 
             try
@@ -85,9 +85,9 @@ namespace Kucoin.Api
             }
             catch (Exception e)
             {
-                var message = $"{nameof(BinanceHttpClient)}: Failed to configure request rate limiter.";
+                var message = $"{nameof(KucoinHttpClient)}: Failed to configure request rate limiter.";
                 _logger?.LogError(e, message);
-                throw new BinanceApiException(message, e);
+                throw new KucoinApiException(message, e);
             }
 
             var uri = new Uri(EndpointUrl);
@@ -102,9 +102,9 @@ namespace Kucoin.Api
             }
             catch (Exception e)
             {
-                var message = $"{nameof(BinanceHttpClient)}: Failed to create HttpClient.";
+                var message = $"{nameof(KucoinHttpClient)}: Failed to create HttpClient.";
                 _logger?.LogError(e, message);
-                throw new BinanceApiException(message, e);
+                throw new KucoinApiException(message, e);
             }
 
             if (Options.ServicePointManagerConnectionLeaseTimeoutMilliseconds > 0)
@@ -118,9 +118,9 @@ namespace Kucoin.Api
                 }
                 catch (Exception e)
                 {
-                    var message = $"{nameof(BinanceHttpClient)}: Failed to set {nameof(ServicePointManager)}.ConnectionLeaseTimeout.";
+                    var message = $"{nameof(KucoinHttpClient)}: Failed to set {nameof(ServicePointManager)}.ConnectionLeaseTimeout.";
                     _logger?.LogError(e, message);
-                    throw new BinanceApiException(message, e);
+                    throw new KucoinApiException(message, e);
                 }
             }
 
@@ -130,13 +130,13 @@ namespace Kucoin.Api
 
                 var versionString = $"{version.Major}.{version.Minor}.{version.Build}{(version.Revision > 0 ? $".{version.Revision}" : string.Empty)}";
 
-                _httpClient.DefaultRequestHeaders.Add("User-Agent", $"Binance/{versionString} (.NET; +https://github.com/sonvister/Binance)");
+                _httpClient.DefaultRequestHeaders.Add("User-Agent", $"Kucoin/{versionString} (.NET;)");
             }
             catch (Exception e)
             {
-                var message = $"{nameof(BinanceHttpClient)}: Failed to set User-Agent.";
+                var message = $"{nameof(KucoinHttpClient)}: Failed to set User-Agent.";
                 _logger?.LogError(e, message);
-                throw new BinanceApiException(message, e);
+                throw new KucoinApiException(message, e);
             }
         }
 
@@ -144,7 +144,7 @@ namespace Kucoin.Api
 
         #region Public Methods
 
-        public async Task SignAsync(BinanceHttpRequest request, IBinanceApiUser user, CancellationToken token = default)
+        public async Task SignAsync(KucoinHttpRequest request, IKucoinApiUser user, CancellationToken token = default)
         {
             Throw.IfNull(request, nameof(request));
             Throw.IfNull(user, nameof(user));
@@ -161,24 +161,24 @@ namespace Kucoin.Api
         }
 
         public Task<string> GetAsync(string path, CancellationToken token = default)
-            => GetAsync(new BinanceHttpRequest(path), token);
+            => GetAsync(new KucoinHttpRequest(path), token);
 
-        public Task<string> GetAsync(BinanceHttpRequest request, CancellationToken token = default)
+        public Task<string> GetAsync(KucoinHttpRequest request, CancellationToken token = default)
         {
             return RequestAsync(HttpMethod.Get, request, token);
         }
 
-        public Task<string> PostAsync(BinanceHttpRequest request, CancellationToken token = default)
+        public Task<string> PostAsync(KucoinHttpRequest request, CancellationToken token = default)
         {
             return RequestAsync(HttpMethod.Post, request, token);
         }
 
-        public Task<string> PutAsync(BinanceHttpRequest request, CancellationToken token = default)
+        public Task<string> PutAsync(KucoinHttpRequest request, CancellationToken token = default)
         {
             return RequestAsync(HttpMethod.Put, request, token);
         }
 
-        public Task<string> DeleteAsync(BinanceHttpRequest request, CancellationToken token = default)
+        public Task<string> DeleteAsync(KucoinHttpRequest request, CancellationToken token = default)
         {
             return RequestAsync(HttpMethod.Delete, request, token);
         }
@@ -187,7 +187,7 @@ namespace Kucoin.Api
 
         #region Private Methods
 
-        private async Task<string> RequestAsync(HttpMethod method, BinanceHttpRequest request, CancellationToken token = default)
+        private async Task<string> RequestAsync(HttpMethod method, KucoinHttpRequest request, CancellationToken token = default)
         {
             Throw.IfNull(request, nameof(request));
 
@@ -195,7 +195,7 @@ namespace Kucoin.Api
 
             var requestMessage = request.CreateMessage(method);
 
-            _logger?.LogDebug($"{nameof(BinanceHttpClient)}.{nameof(RequestAsync)}: [{method.Method}] \"{requestMessage.RequestUri}\"");
+            _logger?.LogDebug($"{nameof(KucoinHttpClient)}.{nameof(RequestAsync)}: [{method.Method}] \"{requestMessage.RequestUri}\"");
 
             using (var response = await _httpClient.SendAsync(requestMessage, token).ConfigureAwait(false))
             {
@@ -204,14 +204,14 @@ namespace Kucoin.Api
                     var json = await response.Content.ReadAsStringAsync()
                         .ConfigureAwait(false);
 
-                    _logger?.LogDebug($"{nameof(BinanceHttpClient)}: \"{json}\"");
+                    _logger?.LogDebug($"{nameof(KucoinHttpClient)}: \"{json}\"");
 
                     return json;
                 }
 
                 if (response.StatusCode == HttpStatusCode.GatewayTimeout)
                 {
-                    throw new BinanceUnknownStatusException();
+                    throw new KucoinUnknownStatusException();
                 }
 
                 var error = await response.Content.ReadAsStringAsync()
@@ -232,7 +232,7 @@ namespace Kucoin.Api
                     }
                     catch (Exception e)
                     {
-                        _logger?.LogError(e, $"{nameof(BinanceHttpClient)}.{nameof(RequestAsync)} failed to parse server error response: \"{error}\"");
+                        _logger?.LogError(e, $"{nameof(KucoinHttpClient)}.{nameof(RequestAsync)} failed to parse server error response: \"{error}\"");
                     }
                 }
 
@@ -240,11 +240,11 @@ namespace Kucoin.Api
                 switch (response.StatusCode)
                 {
                     case (HttpStatusCode)429:
-                        throw new BinanceRequestRateLimitExceededException(response.ReasonPhrase, errorCode, errorMessage);
+                        throw new KucoinRequestRateLimitExceededException(response.ReasonPhrase, errorCode, errorMessage);
                     case (HttpStatusCode)418:
-                        throw new BinanceRequestRateLimitIpBanException(response.ReasonPhrase, errorCode, errorMessage);
+                        throw new KucoinRequestRateLimitIpBanException(response.ReasonPhrase, errorCode, errorMessage);
                     default:
-                        throw new BinanceHttpException(response.StatusCode, response.ReasonPhrase, errorCode, errorMessage);
+                        throw new KucoinHttpException(response.StatusCode, response.ReasonPhrase, errorCode, errorMessage);
                 }
             }
         }

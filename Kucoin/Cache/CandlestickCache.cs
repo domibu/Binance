@@ -40,7 +40,7 @@ namespace Kucoin.Cache
 
         #region Constructors
 
-        public CandlestickCache(IBinanceApi api, ICandlestickWebSocketClient client, ILogger<CandlestickCache> logger = null)
+        public CandlestickCache(IKucoinApi api, ICandlestickWebSocketClient client, ILogger<CandlestickCache> logger = null)
             : base(api, client, logger)
         {
             _candlesticks = new List<Candlestick>();

@@ -4,20 +4,20 @@
 namespace Kucoin.Api
 {
     /// <summary>
-    /// Binance API exception.
+    /// Kucoin API exception.
     /// </summary>
-    public class BinanceApiException : Exception
+    public class KucoinApiException : Exception
     {
         #region Constructors
 
-        public BinanceApiException()
+        public KucoinApiException()
         { }
 
-        public BinanceApiException(string message)
+        public KucoinApiException(string message)
             : base(message)
         { }
 
-        public BinanceApiException(string message, Exception innerException)
+        public KucoinApiException(string message, Exception innerException)
             : base(message, innerException)
         { }
 

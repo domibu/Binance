@@ -16,6 +16,6 @@ namespace Kucoin.Api
         /// <param name="client"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<long> GetTimestampAsync(IBinanceHttpClient client, CancellationToken token = default);
+        Task<long> GetTimestampAsync(IKucoinHttpClient client, CancellationToken token = default);
     }
 }

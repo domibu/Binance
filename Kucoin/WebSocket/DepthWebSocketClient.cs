@@ -12,7 +12,7 @@ namespace Kucoin.WebSocket
     /// <summary>
     /// A <see cref="IDepthWebSocketClient"/> implementation.
     /// </summary>
-    public class DepthWebSocketClient : BinanceWebSocketClient<DepthUpdateEventArgs>, IDepthWebSocketClient
+    public class DepthWebSocketClient : KucoinWebSocketClient<DepthUpdateEventArgs>, IDepthWebSocketClient
     {
         #region Public Events
 
@@ -26,7 +26,7 @@ namespace Kucoin.WebSocket
         /// Default constructor provides default web socket stream, but no logging.
         /// </summary>
         public DepthWebSocketClient()
-            : this(new BinanceWebSocketStream())
+            : this(new KucoinWebSocketStream())
         { }
 
         /// <summary>

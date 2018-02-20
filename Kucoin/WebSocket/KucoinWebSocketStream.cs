@@ -12,7 +12,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Kucoin.WebSocket
 {
-    public sealed class BinanceWebSocketStream : IWebSocketStream
+    public sealed class KucoinWebSocketStream : IWebSocketStream
     {
         #region Public Events
 
@@ -62,7 +62,7 @@ namespace Kucoin.WebSocket
 
         #region Private Constants
 
-        private const string BaseUri = "wss://stream.binance.com:9443";
+        private const string BaseUri = "wss://stream.kucoin.com:9443";
 
         #endregion Private Constants
 
@@ -73,7 +73,7 @@ namespace Kucoin.WebSocket
         private BufferBlock<string> _bufferBlock;
         private ActionBlock<string> _actionBlock;
 
-        private readonly ILogger<BinanceWebSocketStream> _logger;
+        private readonly ILogger<KucoinWebSocketStream> _logger;
 
         private readonly IDictionary<string, ICollection<Action<WebSocketStreamEventArgs>>> _subscribers;
 
@@ -86,7 +86,7 @@ namespace Kucoin.WebSocket
         /// <summary>
         /// Default constructor provides default web socket client, but no logging.
         /// </summary>
-        public BinanceWebSocketStream()
+        public KucoinWebSocketStream()
             : this(new DefaultWebSocketClient())
         { }
 
@@ -95,7 +95,7 @@ namespace Kucoin.WebSocket
         /// </summary>
         /// <param name="client"></param>
         /// <param name="logger">The logger (optional).</param>
-        public BinanceWebSocketStream(IWebSocketClient client, ILogger<BinanceWebSocketStream> logger = null)
+        public KucoinWebSocketStream(IWebSocketClient client, ILogger<KucoinWebSocketStream> logger = null)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -113,7 +113,7 @@ namespace Kucoin.WebSocket
         {
             Throw.IfNullOrWhiteSpace(stream, nameof(stream));
 
-            _logger?.LogDebug($"{nameof(BinanceWebSocketStream)}.{nameof(Subscribe)}: \"{stream}\" (callback: {(callback == null ? "no" : "yes")}).  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+            _logger?.LogDebug($"{nameof(KucoinWebSocketStream)}.{nameof(Subscribe)}: \"{stream}\" (callback: {(callback == null ? "no" : "yes")}).  [thread: {Thread.CurrentThread.ManagedThreadId}]");
 
             // TODO
             //lock (_sync)
@@ -122,18 +122,18 @@ namespace Kucoin.WebSocket
                 {
                     if (Client.IsStreaming)
                     {
-                        _logger?.LogError($"{nameof(BinanceWebSocketStream)}.{nameof(Subscribe)}: {nameof(IWebSocketClient)} is streaming.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
-                        throw new InvalidOperationException($"{nameof(BinanceWebSocketStream)}.{nameof(Subscribe)}: Subscribing (a stream) must be done when not streaming.");
+                        _logger?.LogError($"{nameof(KucoinWebSocketStream)}.{nameof(Subscribe)}: {nameof(IWebSocketClient)} is streaming.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                        throw new InvalidOperationException($"{nameof(KucoinWebSocketStream)}.{nameof(Subscribe)}: Subscribing (a stream) must be done when not streaming.");
                     }
 
-                    _logger?.LogDebug($"{nameof(BinanceWebSocketStream)}.{nameof(Subscribe)}: Adding stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                    _logger?.LogDebug($"{nameof(KucoinWebSocketStream)}.{nameof(Subscribe)}: Adding stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                     _subscribers[stream] = new List<Action<WebSocketStreamEventArgs>>();
                 }
 
                 // ReSharper disable once InvertIf
                 if (!_subscribers[stream].Contains(callback))
                 {
-                    _logger?.LogDebug($"{nameof(BinanceWebSocketStream)}.{nameof(Subscribe)}: Adding callback for stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                    _logger?.LogDebug($"{nameof(KucoinWebSocketStream)}.{nameof(Subscribe)}: Adding callback for stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                     _subscribers[stream].Add(callback);
                 }
             //}
@@ -143,20 +143,20 @@ namespace Kucoin.WebSocket
         {
             Throw.IfNullOrWhiteSpace(stream, nameof(stream));
 
-            _logger?.LogDebug($"{nameof(BinanceWebSocketStream)}.{nameof(Unsubscribe)}: \"{stream}\" (callback: {(callback == null ? "no" : "yes")}).  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+            _logger?.LogDebug($"{nameof(KucoinWebSocketStream)}.{nameof(Unsubscribe)}: \"{stream}\" (callback: {(callback == null ? "no" : "yes")}).  [thread: {Thread.CurrentThread.ManagedThreadId}]");
 
             // TODO
             //lock (_sync)
             //{
                 if (!_subscribers.ContainsKey(stream))
                 {
-                    _logger?.LogError($"{nameof(BinanceWebSocketStream)}.{nameof(Unsubscribe)}: Not subscribed to stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
-                    throw new InvalidOperationException($"{nameof(BinanceWebSocketStream)}.{nameof(Unsubscribe)}: Not subscribed to stream: \"{stream}\"");
+                    _logger?.LogError($"{nameof(KucoinWebSocketStream)}.{nameof(Unsubscribe)}: Not subscribed to stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                    throw new InvalidOperationException($"{nameof(KucoinWebSocketStream)}.{nameof(Unsubscribe)}: Not subscribed to stream: \"{stream}\"");
                 }
 
                 if (_subscribers[stream].Contains(callback))
                 {
-                    _logger?.LogDebug($"{nameof(BinanceWebSocketStream)}.{nameof(Unsubscribe)}: Removing callback for stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                    _logger?.LogDebug($"{nameof(KucoinWebSocketStream)}.{nameof(Unsubscribe)}: Removing callback for stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                     _subscribers[stream].Remove(callback);
                 }
 
@@ -166,11 +166,11 @@ namespace Kucoin.WebSocket
                 {
                     if (Client.IsStreaming)
                     {
-                        _logger?.LogError($"{nameof(BinanceWebSocketStream)}.{nameof(Unsubscribe)}: {nameof(IWebSocketClient)} is streaming.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
-                        throw new InvalidOperationException($"{nameof(BinanceWebSocketStream)}.{nameof(Unsubscribe)}: Unsubscribing (a stream) must be done when not streaming.");
+                        _logger?.LogError($"{nameof(KucoinWebSocketStream)}.{nameof(Unsubscribe)}: {nameof(IWebSocketClient)} is streaming.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                        throw new InvalidOperationException($"{nameof(KucoinWebSocketStream)}.{nameof(Unsubscribe)}: Unsubscribing (a stream) must be done when not streaming.");
                     }
 
-                    _logger?.LogDebug($"{nameof(BinanceWebSocketStream)}.{nameof(Unsubscribe)}: Removing stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                    _logger?.LogDebug($"{nameof(KucoinWebSocketStream)}.{nameof(Unsubscribe)}: Removing stream: \"{stream}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                     _subscribers.Remove(stream);
                 }
             //}
@@ -181,7 +181,7 @@ namespace Kucoin.WebSocket
             // TODO
             //lock (_sync)
             //{
-                _logger?.LogDebug($"{nameof(BinanceWebSocketStream)}.{nameof(UnsubscribeAll)}: Removing all streams.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                _logger?.LogDebug($"{nameof(KucoinWebSocketStream)}.{nameof(UnsubscribeAll)}: Removing all streams.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                 _subscribers.Clear();
             //}
         }
@@ -194,10 +194,10 @@ namespace Kucoin.WebSocket
             token.ThrowIfCancellationRequested();
 
             if (Client.IsStreaming)
-                throw new InvalidOperationException($"{nameof(BinanceWebSocketStream)}.{nameof(StreamAsync)}: Already streaming ({nameof(IWebSocketClient)}.{nameof(IWebSocketClient.StreamAsync)} Task is not completed).");
+                throw new InvalidOperationException($"{nameof(KucoinWebSocketStream)}.{nameof(StreamAsync)}: Already streaming ({nameof(IWebSocketClient)}.{nameof(IWebSocketClient.StreamAsync)} Task is not completed).");
 
             if (!_subscribers.Any())
-                throw new InvalidOperationException($"{nameof(BinanceWebSocketStream)}.{nameof(StreamAsync)}: Not subscribed to any streams.");
+                throw new InvalidOperationException($"{nameof(KucoinWebSocketStream)}.{nameof(StreamAsync)}: Not subscribed to any streams.");
 
             try
             {
@@ -228,7 +228,7 @@ namespace Kucoin.WebSocket
                                 streamName = jObject["stream"]?.Value<string>();
                                 if (streamName == null)
                                 {
-                                    _logger?.LogError($"{nameof(BinanceWebSocketStream)}: No 'stream' name in message: \"{json}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                                    _logger?.LogError($"{nameof(KucoinWebSocketStream)}: No 'stream' name in message: \"{json}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                                     return; // ignore.
                                 }
 
@@ -236,7 +236,7 @@ namespace Kucoin.WebSocket
                                 var data = jObject["data"]?.ToString(Formatting.None);
                                 if (data == null)
                                 {
-                                    _logger?.LogError($"{nameof(BinanceWebSocketStream)}: No JSON 'data' in message: \"{json}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                                    _logger?.LogError($"{nameof(KucoinWebSocketStream)}: No JSON 'data' in message: \"{json}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                                     return; // ignore.
                                 }
 
@@ -248,7 +248,7 @@ namespace Kucoin.WebSocket
                                 streamName = _subscribers.Keys.FirstOrDefault();
                                 if (streamName == null)
                                 {
-                                    _logger?.LogError($"{nameof(BinanceWebSocketStream)}: No subscribed streams.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                                    _logger?.LogError($"{nameof(KucoinWebSocketStream)}: No subscribed streams.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                                     return; // ignore.
                                 }
                             }
@@ -260,7 +260,7 @@ namespace Kucoin.WebSocket
                             }
                             else
                             {
-                                _logger?.LogError($"{nameof(BinanceWebSocketStream)}: No subscribers for stream: \"{streamName}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                                _logger?.LogError($"{nameof(KucoinWebSocketStream)}: No subscribers for stream: \"{streamName}\"  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                                 return; // ignore.
                             }
                         //}
@@ -281,7 +281,7 @@ namespace Kucoin.WebSocket
                     {
                         if (!token.IsCancellationRequested)
                         {
-                            _logger?.LogError(e, $"{nameof(BinanceWebSocketStream)}: Failed processing JSON message.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                            _logger?.LogError(e, $"{nameof(KucoinWebSocketStream)}: Failed processing JSON message.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                         }
                     }
                 },
@@ -303,7 +303,7 @@ namespace Kucoin.WebSocket
 
                 Client.Message += OnClientMessage;
 
-                _logger?.LogInformation($"{nameof(BinanceWebSocketStream)}.{nameof(StreamAsync)}: \"{uri.AbsoluteUri}\"");
+                _logger?.LogInformation($"{nameof(KucoinWebSocketStream)}.{nameof(StreamAsync)}: \"{uri.AbsoluteUri}\"");
 
                 await Client.StreamAsync(uri, token)
                     .ConfigureAwait(false);
@@ -313,7 +313,7 @@ namespace Kucoin.WebSocket
             {
                 if (!token.IsCancellationRequested)
                 {
-                    _logger?.LogError(e, $"{nameof(BinanceWebSocketStream)}.{nameof(StreamAsync)}: Failed.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                    _logger?.LogError(e, $"{nameof(KucoinWebSocketStream)}.{nameof(StreamAsync)}: Failed.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
                     throw;
                 }
             }
@@ -324,7 +324,7 @@ namespace Kucoin.WebSocket
                 _bufferBlock?.Complete();
                 _actionBlock?.Complete();
 
-                _logger?.LogDebug($"{nameof(BinanceWebSocketStream)}.{nameof(StreamAsync)}: Task complete.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
+                _logger?.LogDebug($"{nameof(KucoinWebSocketStream)}.{nameof(StreamAsync)}: Task complete.  [thread: {Thread.CurrentThread.ManagedThreadId}]");
             }
         }
 
@@ -344,7 +344,7 @@ namespace Kucoin.WebSocket
             _maxBufferCount = count;
             if (_maxBufferCount > 1)
             {
-                _logger?.LogTrace($"{nameof(BinanceWebSocketStream)}.{nameof(OnClientMessage)}: - Maximum buffer block count: {_maxBufferCount}");
+                _logger?.LogTrace($"{nameof(KucoinWebSocketStream)}.{nameof(OnClientMessage)}: - Maximum buffer block count: {_maxBufferCount}");
             }
         }
 

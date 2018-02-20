@@ -7,21 +7,21 @@ using Microsoft.Extensions.Options;
 namespace Kucoin.Api
 {
     /// <summary>
-    /// A <see cref="IBinanceApiUser"/> provider allowing for the application of <see cref="BinanceApiOptions"/>.
+    /// A <see cref="IKucoinApiUser"/> provider allowing for the application of <see cref="KucoinApiOptions"/>.
     /// </summary>
-    public sealed class BinanceApiUserProvider : IBinanceApiUserProvider
+    public sealed class KucoinApiUserProvider : IKucoinApiUserProvider
     {
         #region Private Fields
 
         private readonly IServiceProvider _services;
 
-        private readonly IOptions<BinanceApiOptions> _options;
+        private readonly IOptions<KucoinApiOptions> _options;
 
         #endregion Private Fields
 
         #region Constructors
 
-        public BinanceApiUserProvider(IServiceProvider services, IOptions<BinanceApiOptions> options = null)
+        public KucoinApiUserProvider(IServiceProvider services, IOptions<KucoinApiOptions> options = null)
         {
             Throw.IfNull(services, nameof(services));
 
@@ -33,9 +33,9 @@ namespace Kucoin.Api
 
         #region Public Methods
 
-        public IBinanceApiUser CreateUser(string apiKey, string apiSecret = null)
+        public IKucoinApiUser CreateUser(string apiKey, string apiSecret = null)
         {
-            return new BinanceApiUser(apiKey, apiSecret, _services.GetService<IApiRateLimiter>(), _options);
+            return new KucoinApiUser(apiKey, apiSecret, _services.GetService<IApiRateLimiter>(), _options);
         }
 
         #endregion Public Methods

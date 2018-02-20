@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Kucoin.Api
 {
-    public interface IBinanceHttpClient : IDisposable
+    public interface IKucoinHttpClient : IDisposable
     {
         /// <summary>
         /// Get or set the timestamp provider.
@@ -23,7 +23,7 @@ namespace Kucoin.Api
         ///       To change the request rate limiter settings at runtime,
         ///       use RateLimiter.Configure().
         /// </summary>
-        BinanceApiOptions Options { get; }
+        KucoinApiOptions Options { get; }
 
         /// <summary>
         /// 
@@ -32,7 +32,7 @@ namespace Kucoin.Api
         /// <param name="user"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task SignAsync(BinanceHttpRequest request, IBinanceApiUser user, CancellationToken token = default);
+        Task SignAsync(KucoinHttpRequest request, IKucoinApiUser user, CancellationToken token = default);
 
         /// <summary>
         /// Get request.
@@ -48,7 +48,7 @@ namespace Kucoin.Api
         /// <param name="request"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<string> GetAsync(BinanceHttpRequest request, CancellationToken token = default);
+        Task<string> GetAsync(KucoinHttpRequest request, CancellationToken token = default);
 
         /// <summary>
         /// Post request.
@@ -56,7 +56,7 @@ namespace Kucoin.Api
         /// <param name="request"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<string> PostAsync(BinanceHttpRequest request, CancellationToken token = default);
+        Task<string> PostAsync(KucoinHttpRequest request, CancellationToken token = default);
 
         /// <summary>
         /// Put request.
@@ -64,7 +64,7 @@ namespace Kucoin.Api
         /// <param name="request"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<string> PutAsync(BinanceHttpRequest request, CancellationToken token = default);
+        Task<string> PutAsync(KucoinHttpRequest request, CancellationToken token = default);
 
         /// <summary>
         /// Delete request.
@@ -72,6 +72,6 @@ namespace Kucoin.Api
         /// <param name="request"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<string> DeleteAsync(BinanceHttpRequest request, CancellationToken token = default);
+        Task<string> DeleteAsync(KucoinHttpRequest request, CancellationToken token = default);
     }
 }

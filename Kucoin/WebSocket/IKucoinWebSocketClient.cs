@@ -2,7 +2,7 @@
 
 namespace Kucoin.WebSocket
 {
-    public interface IBinanceWebSocketClient
+    public interface IKucoinWebSocketClient
     {
         /// <summary>
         /// The web socket client open event.

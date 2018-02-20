@@ -37,7 +37,7 @@ namespace Kucoin.Cache
 
         #region Constructors
 
-        public OrderBookCache(IBinanceApi api, IDepthWebSocketClient client, ILogger<OrderBookCache> logger = null)
+        public OrderBookCache(IKucoinApi api, IDepthWebSocketClient client, ILogger<OrderBookCache> logger = null)
             : base(api, client, logger)
         { }
 

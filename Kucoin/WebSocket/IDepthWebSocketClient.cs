@@ -6,7 +6,7 @@ namespace Kucoin.WebSocket
     /// <summary>
     /// The depth client ...what makes order book synchronization possible.
     /// </summary>
-    public interface IDepthWebSocketClient : IBinanceWebSocketClient
+    public interface IDepthWebSocketClient : IKucoinWebSocketClient
     {
         /// <summary>
         /// The depth update event.

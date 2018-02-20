@@ -41,7 +41,7 @@ namespace Kucoin.Serialization
             return FillOrder(order, JObject.Parse(json));
         }
 
-        public virtual Order Deserialize(string json, IBinanceApiUser user)
+        public virtual Order Deserialize(string json, IKucoinApiUser user)
         {
             Throw.IfNullOrWhiteSpace(json, nameof(json));
             Throw.IfNull(user, nameof(user));
@@ -49,7 +49,7 @@ namespace Kucoin.Serialization
             return FillOrder(new Order(user), JObject.Parse(json));
         }
 
-        public virtual IEnumerable<Order> DeserializeMany(string json, IBinanceApiUser user)
+        public virtual IEnumerable<Order> DeserializeMany(string json, IKucoinApiUser user)
         {
             Throw.IfNullOrWhiteSpace(json, nameof(json));
             Throw.IfNull(user, nameof(user));

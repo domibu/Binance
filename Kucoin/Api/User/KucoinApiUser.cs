@@ -8,9 +8,9 @@ using Microsoft.Extensions.Options;
 namespace Kucoin.Api
 {
     /// <summary>
-    /// Binance API user <see cref="IBinanceApiUser"/> implementation.
+    /// Kucoin API user <see cref="IKucoinApiUser"/> implementation.
     /// </summary>
-    public sealed class BinanceApiUser : IBinanceApiUser, IEquatable<IBinanceApiUser>
+    public sealed class KucoinApiUser : IKucoinApiUser, IEquatable<IKucoinApiUser>
     {
         #region Public Properties
 
@@ -31,7 +31,7 @@ namespace Kucoin.Api
         #region Constructors
 
         /// <summary>
-        /// Construct an <see cref="IBinanceApiUser"/> instance providing an API
+        /// Construct an <see cref="IKucoinApiUser"/> instance providing an API
         /// key and optional API secret. The API secret is not required for 
         /// the user stream methods, but is required for other account methods.
         /// </summary>
@@ -39,7 +39,7 @@ namespace Kucoin.Api
         /// <param name="apiSecret">The user's API secret (optional, but required for signing).</param>
         /// <param name="rateLimiter">The rate limiter (auto-configured).</param>
         /// <param name="options">The JSON API options.</param>
-        public BinanceApiUser(string apiKey, string apiSecret = null, IApiRateLimiter rateLimiter = null, IOptions<BinanceApiOptions> options = null)
+        public KucoinApiUser(string apiKey, string apiSecret = null, IApiRateLimiter rateLimiter = null, IOptions<KucoinApiOptions> options = null)
         {
             Throw.IfNullOrWhiteSpace(apiKey, nameof(apiKey));
 
@@ -51,7 +51,7 @@ namespace Kucoin.Api
             }
 
             RateLimiter = rateLimiter ?? new ApiRateLimiter();
-            var opt = options?.Value ?? new BinanceApiOptions();
+            var opt = options?.Value ?? new KucoinApiOptions();
 
             // Configure order rate limiter.
             RateLimiter?.Configure(TimeSpan.FromDays(opt.OrderRateLimit.DurationDays), opt.OrderRateLimit.Count);
@@ -68,7 +68,7 @@ namespace Kucoin.Api
             Throw.IfNullOrWhiteSpace(totalParams, nameof(totalParams));
 
             if (_hmac == null)
-                throw new InvalidOperationException($"{nameof(BinanceApiUser)}.{nameof(Sign)} requires the user's API secret.");
+                throw new InvalidOperationException($"{nameof(KucoinApiUser)}.{nameof(Sign)} requires the user's API secret.");
 
             byte[] hash;
             lock (_sync)
@@ -79,7 +79,7 @@ namespace Kucoin.Api
             return BitConverter.ToString(hash).Replace("-", string.Empty);
         }
 
-        public bool Equals(IBinanceApiUser user)
+        public bool Equals(IKucoinApiUser user)
         {
             if (user == null)
                 return false;
@@ -91,7 +91,7 @@ namespace Kucoin.Api
         }
 
         public override bool Equals(object obj)
-            => Equals(obj as IBinanceApiUser);
+            => Equals(obj as IKucoinApiUser);
 
         public override int GetHashCode()
         {

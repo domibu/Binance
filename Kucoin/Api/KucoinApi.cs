@@ -15,9 +15,9 @@ using Newtonsoft.Json.Linq;
 namespace Kucoin.Api
 {
     /// <summary>
-    /// Binance API <see cref="IBinanceApi"/> implementation.
+    /// Kucoin API <see cref="IKucoinApi"/> implementation.
     /// </summary>
-    public class BinanceApi : IBinanceApi
+    public class KucoinApi : IKucoinApi
     {
         #region Public Constants
 
@@ -32,9 +32,9 @@ namespace Kucoin.Api
         #region Public Properties
 
         /// <summary>
-        /// Get the low-level <see cref="IBinanceHttpClient"/> singleton.
+        /// Get the low-level <see cref="IKucoinHttpClient"/> singleton.
         /// </summary>
-        public IBinanceHttpClient HttpClient { get; }
+        public IKucoinHttpClient HttpClient { get; }
 
         #endregion Public Properties
 
@@ -58,7 +58,7 @@ namespace Kucoin.Api
 
         private readonly IOrderSerializer _orderSerializer;
 
-        private readonly ILogger<BinanceApi> _logger;
+        private readonly ILogger<KucoinApi> _logger;
 
         #endregion Private Fields
 
@@ -68,8 +68,8 @@ namespace Kucoin.Api
         /// Default constructor provides default timestamp provider, default
         /// rate limiter, and default options, but no logging functionality.
         /// </summary>
-        public BinanceApi()
-            : this(BinanceHttpClient.Instance)
+        public KucoinApi()
+            : this(KucoinHttpClient.Instance)
         { }
 
         /// <summary>
@@ -86,8 +86,8 @@ namespace Kucoin.Api
         /// <param name="tradeSerializer"></param>
         /// <param name="orderSerializer"></param>
         /// <param name="logger"></param>
-        public BinanceApi(
-            IBinanceHttpClient client,
+        public KucoinApi(
+            IKucoinHttpClient client,
             IOrderBookSerializer orderBookSerializer = null,
             IOrderBookTopSerializer orderBookTopSerializer = null,
             IAggregateTradeSerializer aggregateTradeSerializer = null,
@@ -97,7 +97,7 @@ namespace Kucoin.Api
             IAccountTradeSerializer accountTradeSerializer = null,
             ITradeSerializer tradeSerializer = null,
             IOrderSerializer orderSerializer = null,
-            ILogger<BinanceApi> logger = null)
+            ILogger<KucoinApi> logger = null)
         {
             Throw.IfNull(client, nameof(client));
 
@@ -123,7 +123,7 @@ namespace Kucoin.Api
         public virtual async Task<bool> PingAsync(CancellationToken token = default)
         {
             return await HttpClient.PingAsync(token).ConfigureAwait(false)
-                   == BinanceHttpClient.SuccessfulTestResponse;
+                   == KucoinHttpClient.SuccessfulTestResponse;
         }
 
         public virtual async Task<long> GetTimestampAsync(CancellationToken token = default)
@@ -172,7 +172,7 @@ namespace Kucoin.Api
             return rateLimits;
         }
 
-        public virtual async Task<BinanceStatus> GetSystemStatusAsync(CancellationToken token = default)
+        public virtual async Task<KucoinStatus> GetSystemStatusAsync(CancellationToken token = default)
         {
             var json = await HttpClient.GetSystemStatusAsync(token)
                 .ConfigureAwait(false);
@@ -186,10 +186,10 @@ namespace Kucoin.Api
 
                 switch (status)
                 {
-                    case 0: return BinanceStatus.Normal;
-                    case 1: return BinanceStatus.Maintenance;
+                    case 0: return KucoinStatus.Normal;
+                    case 1: return KucoinStatus.Maintenance;
                     default:
-                        throw new BinanceApiException($"Unknown Status ({status}): \"{msg}\"");
+                        throw new KucoinApiException($"Unknown Status ({status}): \"{msg}\"");
                 }
             }
             catch (Exception e)
@@ -514,15 +514,15 @@ namespace Kucoin.Api
                 clientOrder.Quantity, limitOrder?.Price ?? 0, clientOrder.Id, clientOrder.Type == OrderType.LimitMaker ? null : limitOrder?.TimeInForce,
                 stopOrder?.StopPrice ?? 0, limitOrder?.IcebergQuantity ?? 0, recvWindow, true, PlaceOrderResponseType.Ack, token);
 
-            if (json != BinanceHttpClient.SuccessfulTestResponse)
+            if (json != KucoinHttpClient.SuccessfulTestResponse)
             {
-                var message = $"{nameof(BinanceApi)}.{nameof(TestPlaceAsync)} failed order placement test.";
+                var message = $"{nameof(KucoinApi)}.{nameof(TestPlaceAsync)} failed order placement test.";
                 _logger?.LogError(message);
-                throw new BinanceApiException(message);
+                throw new KucoinApiException(message);
             }
         }
 
-        public virtual async Task<Order> GetOrderAsync(IBinanceApiUser user, string symbol, long orderId, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<Order> GetOrderAsync(IKucoinApiUser user, string symbol, long orderId, long recvWindow = default, CancellationToken token = default)
         {
             // Get order using order ID.
             var json = await HttpClient.GetOrderAsync(user, symbol, orderId, null, recvWindow, token)
@@ -535,7 +535,7 @@ namespace Kucoin.Api
             }
         }
 
-        public virtual async Task<Order> GetOrderAsync(IBinanceApiUser user, string symbol, string origClientOrderId, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<Order> GetOrderAsync(IKucoinApiUser user, string symbol, string origClientOrderId, long recvWindow = default, CancellationToken token = default)
         {
             // Get order using original client order ID.
             var json = await HttpClient.GetOrderAsync(user, symbol, NullId, origClientOrderId, recvWindow, token)
@@ -564,7 +564,7 @@ namespace Kucoin.Api
             }
         }
 
-        public virtual async Task<string> CancelOrderAsync(IBinanceApiUser user, string symbol, long orderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<string> CancelOrderAsync(IKucoinApiUser user, string symbol, long orderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
         {
             if (orderId < 0)
                 throw new ArgumentException("ID must not be less than 0.", nameof(orderId));
@@ -580,7 +580,7 @@ namespace Kucoin.Api
             }
         }
 
-        public virtual async Task<string> CancelOrderAsync(IBinanceApiUser user, string symbol, string origClientOrderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<string> CancelOrderAsync(IKucoinApiUser user, string symbol, string origClientOrderId, string newClientOrderId = null, long recvWindow = default, CancellationToken token = default)
         {
             Throw.IfNullOrWhiteSpace(origClientOrderId, nameof(origClientOrderId));
 
@@ -596,7 +596,7 @@ namespace Kucoin.Api
             }
         }
 
-        public virtual async Task<IEnumerable<Order>> GetOpenOrdersAsync(IBinanceApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Order>> GetOpenOrdersAsync(IKucoinApiUser user, string symbol = null, long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetOpenOrdersAsync(user, symbol, recvWindow, token)
                 .ConfigureAwait(false);
@@ -608,7 +608,7 @@ namespace Kucoin.Api
             }
         }
 
-        public virtual async Task<IEnumerable<Order>> GetOrdersAsync(IBinanceApiUser user, string symbol, long orderId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Order>> GetOrdersAsync(IKucoinApiUser user, string symbol, long orderId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetOrdersAsync(user, symbol, orderId, limit, recvWindow, token)
                 .ConfigureAwait(false);
@@ -620,7 +620,7 @@ namespace Kucoin.Api
             }
         }
 
-        public virtual async Task<AccountInfo> GetAccountInfoAsync(IBinanceApiUser user, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<AccountInfo> GetAccountInfoAsync(IKucoinApiUser user, long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetAccountInfoAsync(user, recvWindow, token)
                 .ConfigureAwait(false);
@@ -655,7 +655,7 @@ namespace Kucoin.Api
             }
         }
 
-        public virtual async Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IBinanceApiUser user, string symbol, long fromId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<AccountTrade>> GetAccountTradesAsync(IKucoinApiUser user, string symbol, long fromId = NullId, int limit = default, long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetAccountTradesAsync(user, symbol, fromId, limit, recvWindow, token)
                 .ConfigureAwait(false);
@@ -692,13 +692,13 @@ namespace Kucoin.Api
             // ReSharper disable once InvertIf
             if (!success)
             {
-                throw NewBinanceWApiException(nameof(WithdrawAsync), json, withdrawRequest.Asset);
+                throw NewKucoinWApiException(nameof(WithdrawAsync), json, withdrawRequest.Asset);
             }
 
             return withdrawRequest.Id;
         }
 
-        public virtual async Task<IEnumerable<Deposit>> GetDepositsAsync(IBinanceApiUser user, string asset, DepositStatus? status = null, long startTime = default, long endTime = default, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Deposit>> GetDepositsAsync(IKucoinApiUser user, string asset, DepositStatus? status = null, long startTime = default, long endTime = default, long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetDepositsAsync(user, asset, status, startTime, endTime, recvWindow, token)
                 .ConfigureAwait(false);
@@ -738,13 +738,13 @@ namespace Kucoin.Api
             // ReSharper disable once InvertIf
             if (!success)
             {
-                throw NewBinanceWApiException(nameof(GetDepositsAsync), json, asset);
+                throw NewKucoinWApiException(nameof(GetDepositsAsync), json, asset);
             }
 
             return deposits;
         }
 
-        public virtual async Task<IEnumerable<Withdrawal>> GetWithdrawalsAsync(IBinanceApiUser user, string asset, WithdrawalStatus? status = null, long startTime = default, long endTime = default, long recvWindow = default, CancellationToken token = default)
+        public virtual async Task<IEnumerable<Withdrawal>> GetWithdrawalsAsync(IKucoinApiUser user, string asset, WithdrawalStatus? status = null, long startTime = default, long endTime = default, long recvWindow = default, CancellationToken token = default)
         {
             var json = await HttpClient.GetWithdrawalsAsync(user, asset, status, startTime, endTime, recvWindow, token)
                 .ConfigureAwait(false);
@@ -785,13 +785,13 @@ namespace Kucoin.Api
             // ReSharper disable once InvertIf
             if (!success)
             {
-                throw NewBinanceWApiException(nameof(GetWithdrawalsAsync), json, asset);
+                throw NewKucoinWApiException(nameof(GetWithdrawalsAsync), json, asset);
             }
 
             return withdrawals;
         }
 
-        public virtual async Task<DepositAddress> GetDepositAddressAsync(IBinanceApiUser user, string asset, CancellationToken token = default)
+        public virtual async Task<DepositAddress> GetDepositAddressAsync(IKucoinApiUser user, string asset, CancellationToken token = default)
         {
             var json = await HttpClient.GetDepositAddressAsync(user, asset, token)
                 .ConfigureAwait(false);
@@ -821,13 +821,13 @@ namespace Kucoin.Api
             // ReSharper disable once InvertIf
             if (!success)
             {
-                throw NewBinanceWApiException(nameof(GetDepositAddressAsync), json, asset);
+                throw NewKucoinWApiException(nameof(GetDepositAddressAsync), json, asset);
             }
 
             return depositAddress;
         }
 
-        public virtual async Task<string> GetAccountStatusAsync(IBinanceApiUser user, CancellationToken token = default)
+        public virtual async Task<string> GetAccountStatusAsync(IKucoinApiUser user, CancellationToken token = default)
         {
             var json = await HttpClient.GetAccountStatusAsync(user, token)
                 .ConfigureAwait(false);
@@ -863,11 +863,11 @@ namespace Kucoin.Api
             var json = await HttpClient.UserStreamKeepAliveAsync(apiKey, listenKey, token)
                 .ConfigureAwait(false);
 
-            if (json != BinanceHttpClient.SuccessfulTestResponse)
+            if (json != KucoinHttpClient.SuccessfulTestResponse)
             {
-                var message = $"{nameof(BinanceApi)}.{nameof(UserStreamKeepAliveAsync)} failed.";
+                var message = $"{nameof(KucoinApi)}.{nameof(UserStreamKeepAliveAsync)} failed.";
                 _logger?.LogError(message);
-                throw new BinanceApiException(message);
+                throw new KucoinApiException(message);
             }
         }
 
@@ -876,10 +876,10 @@ namespace Kucoin.Api
             var json = await HttpClient.UserStreamCloseAsync(apiKey, listenKey, token)
                 .ConfigureAwait(false);
 
-            if (json != BinanceHttpClient.SuccessfulTestResponse)
+            if (json != KucoinHttpClient.SuccessfulTestResponse)
             {
-                var message = $"{nameof(BinanceApi)}.{nameof(UserStreamCloseAsync)} failed.";
-                throw new BinanceApiException(message);
+                var message = $"{nameof(KucoinApi)}.{nameof(UserStreamCloseAsync)} failed.";
+                throw new KucoinApiException(message);
             }
         }
 
@@ -894,13 +894,13 @@ namespace Kucoin.Api
         /// <param name="json"></param>
         /// <param name="e"></param>
         /// <returns></returns>
-        private BinanceApiException NewFailedToParseJsonException(string methodName, string json, Exception e)
+        private KucoinApiException NewFailedToParseJsonException(string methodName, string json, Exception e)
         {
-            var message = $"{nameof(BinanceApi)}.{methodName} failed to parse JSON api response: \"{json}\"";
+            var message = $"{nameof(KucoinApi)}.{methodName} failed to parse JSON api response: \"{json}\"";
 
             _logger?.LogError(e, message);
 
-            return new BinanceApiException(message, e);
+            return new KucoinApiException(message, e);
         }
 
         /// <summary>
@@ -909,7 +909,7 @@ namespace Kucoin.Api
         /// <param name="methodName"></param>
         /// <param name="json"></param>
         /// <param name="asset"></param>
-        private BinanceApiException NewBinanceWApiException(string methodName, string json, string asset)
+        private KucoinApiException NewKucoinWApiException(string methodName, string json, string asset)
         {
             asset = asset.FormatSymbol();
 
@@ -931,14 +931,14 @@ namespace Kucoin.Api
                 }
                 catch (Exception e)
                 {
-                    _logger?.LogError(e, $"{nameof(BinanceApi)}.{methodName} failed to parse server error response: \"{error}\"");
+                    _logger?.LogError(e, $"{nameof(KucoinApi)}.{methodName} failed to parse server error response: \"{error}\"");
                     throw;
                 }
             }
 
-            var message = $"{nameof(BinanceApi)}.{methodName}: Failed (asset: \"{asset}\") - \"{errorMessage}\"{(errorCode != 0 ? $" ({errorCode})" : " [NO CODE]")}";
+            var message = $"{nameof(KucoinApi)}.{methodName}: Failed (asset: \"{asset}\") - \"{errorMessage}\"{(errorCode != 0 ? $" ({errorCode})" : " [NO CODE]")}";
             _logger?.LogError(message);
-            return new BinanceApiException(message);
+            return new KucoinApiException(message);
         }
 
         #endregion Private Methods

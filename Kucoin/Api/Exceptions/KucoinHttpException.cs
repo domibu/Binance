@@ -4,9 +4,9 @@
 namespace Kucoin.Api
 {
     /// <summary>
-    /// Binance HTTP exception.
+    /// Kucoin HTTP exception.
     /// </summary>
-    public class BinanceHttpException : BinanceApiException
+    public class KucoinHttpException : KucoinApiException
     {
         #region Public Properties
 
@@ -39,7 +39,7 @@ namespace Kucoin.Api
         /// </summary>
         /// <param name="statusCode">The HTTP status code.</param>
         /// <param name="reasonPhrase">The HTTP response reason.</param>
-        public BinanceHttpException(HttpStatusCode statusCode, string reasonPhrase)
+        public KucoinHttpException(HttpStatusCode statusCode, string reasonPhrase)
             : this(statusCode, reasonPhrase, 0, null)
         { }
 
@@ -50,7 +50,7 @@ namespace Kucoin.Api
         /// <param name="reasonPhrase">The HTTP response reason.</param>
         /// <param name="errorCode">The server ERROR code.</param>
         /// <param name="errorMessage">The server ERROR message.</param>
-        public BinanceHttpException(HttpStatusCode statusCode, string reasonPhrase, int errorCode, string errorMessage)
+        public KucoinHttpException(HttpStatusCode statusCode, string reasonPhrase, int errorCode, string errorMessage)
             : base(FormatErrorMessage(statusCode, reasonPhrase, errorCode, errorMessage))
         {
             StatusCode = statusCode;

@@ -45,7 +45,7 @@ namespace Kucoin.Cache
 
         #region Constructors
 
-        public SymbolStatisticsCache(IBinanceApi api, ISymbolStatisticsWebSocketClient client, ILogger<SymbolStatisticsCache> logger = null)
+        public SymbolStatisticsCache(IKucoinApi api, ISymbolStatisticsWebSocketClient client, ILogger<SymbolStatisticsCache> logger = null)
             : base(api, client, logger)
         { }
 

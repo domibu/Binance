@@ -12,7 +12,7 @@ namespace Kucoin.WebSocket
     /// <summary>
     /// An <see cref="IAggregateTradeWebSocketClient"/> implementation.
     /// </summary>
-    public class AggregateTradeWebSocketClient : BinanceWebSocketClient<AggregateTradeEventArgs>, IAggregateTradeWebSocketClient
+    public class AggregateTradeWebSocketClient : KucoinWebSocketClient<AggregateTradeEventArgs>, IAggregateTradeWebSocketClient
     {
         #region Public Events
 
@@ -26,7 +26,7 @@ namespace Kucoin.WebSocket
         /// Default constructor provides default web socket stream, but no logging.
         /// </summary>
         public AggregateTradeWebSocketClient()
-            : this(new BinanceWebSocketStream())
+            : this(new KucoinWebSocketStream())
         { }
 
         /// <summary>

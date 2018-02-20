@@ -29,7 +29,7 @@ namespace Kucoin.Cache
 
         #region Protected Fields
 
-        protected readonly IBinanceApi Api;
+        protected readonly IKucoinApi Api;
 
         protected readonly ILogger Logger;
 
@@ -48,7 +48,7 @@ namespace Kucoin.Cache
 
         #region Constructors
 
-        protected WebSocketClientCache(IBinanceApi api, TClient client, ILogger logger = null)
+        protected WebSocketClientCache(IKucoinApi api, TClient client, ILogger logger = null)
         {
             Throw.IfNull(api, nameof(api));
             Throw.IfNull(client, nameof(client));

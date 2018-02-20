@@ -55,12 +55,12 @@ namespace Kucoin.Serialization
                 new JProperty(KeyIsBestPriceMatch, trade.IsBestPriceMatch)
             };
 
-            if (trade.BuyerOrderId != BinanceApi.NullId)
+            if (trade.BuyerOrderId != KucoinApi.NullId)
             {
                 jObject.Add(new JProperty(KeyBuyerOrderId, trade.BuyerOrderId));
             }
 
-            if (trade.SellerOrderId != BinanceApi.NullId)
+            if (trade.SellerOrderId != KucoinApi.NullId)
             {
                 jObject.Add(new JProperty(KeySellerOrderId, trade.SellerOrderId));
             }
@@ -75,8 +75,8 @@ namespace Kucoin.Serialization
                 jToken[KeyId].Value<long>(),                                  // ID
                 jToken[KeyPrice].Value<decimal>(),                            // price
                 jToken[KeyQuantity].Value<decimal>(),                         // quantity
-                jToken[KeyBuyerOrderId]?.Value<long>() ?? BinanceApi.NullId,  // buyer order ID
-                jToken[KeySellerOrderId]?.Value<long>() ?? BinanceApi.NullId, // seller order ID
+                jToken[KeyBuyerOrderId]?.Value<long>() ?? KucoinApi.NullId,  // buyer order ID
+                jToken[KeySellerOrderId]?.Value<long>() ?? KucoinApi.NullId, // seller order ID
                 jToken[KeyTime].Value<long>().ToDateTime(),                   // time
                 jToken[KeyIsBuyerMaker].Value<bool>(),                        // is buyer maker
                 jToken[KeyIsBestPriceMatch].Value<bool>());                   // is best price match

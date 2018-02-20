@@ -5,16 +5,16 @@ using Kucoin.Utility;
 // ReSharper disable once CheckNamespace
 namespace Kucoin.WebSocket.Manager
 {
-    public static class BinanceWebSocketManagerExtensions
+    public static class KucoinWebSocketManagerExtensions
     {
         /// <summary>
         /// Get the <see cref="IRetryTaskController"/> associated with the
-        /// <see cref="IBinanceWebSocketClient"/> web socket stream.
+        /// <see cref="IKucoinWebSocketClient"/> web socket stream.
         /// </summary>
         /// <param name="manager"></param>
         /// <param name="client"></param>
         /// <returns></returns>
-        public static IRetryTaskController GetController(this IBinanceWebSocketManager manager, IBinanceWebSocketClient client)
+        public static IRetryTaskController GetController(this IKucoinWebSocketManager manager, IKucoinWebSocketClient client)
         {
             Throw.IfNull(manager, nameof(manager));
             Throw.IfNull(client, nameof(client));
@@ -23,11 +23,11 @@ namespace Kucoin.WebSocket.Manager
         }
 
         /// <summary>
-        /// Get all managed <see cref="IBinanceWebSocketClient"/> clients.
+        /// Get all managed <see cref="IKucoinWebSocketClient"/> clients.
         /// </summary>
         /// <param name="manager"></param>
         /// <returns></returns>
-        public static IEnumerable<IBinanceWebSocketClient> Clients(this IBinanceWebSocketManager manager)
+        public static IEnumerable<IKucoinWebSocketClient> Clients(this IKucoinWebSocketManager manager)
         {
             Throw.IfNull(manager, nameof(manager));
 
@@ -42,7 +42,7 @@ namespace Kucoin.WebSocket.Manager
         /// Begin all controller actions.
         /// </summary>
         /// <param name="manager"></param>
-        public static void BeginAll(this IBinanceWebSocketManager manager)
+        public static void BeginAll(this IKucoinWebSocketManager manager)
         {
             Throw.IfNull(manager, nameof(manager));
 
@@ -57,7 +57,7 @@ namespace Kucoin.WebSocket.Manager
         /// </summary>
         /// <param name="manager"></param>
         /// <returns></returns>
-        public static async Task CancelAllAsync(this IBinanceWebSocketManager manager)
+        public static async Task CancelAllAsync(this IKucoinWebSocketManager manager)
         {
             Throw.IfNull(manager, nameof(manager));
 
@@ -74,7 +74,7 @@ namespace Kucoin.WebSocket.Manager
         /// </summary>
         /// <param name="manager"></param>
         /// <returns></returns>
-        public static async Task UnsubscribeAllAsync(this IBinanceWebSocketManager manager)
+        public static async Task UnsubscribeAllAsync(this IKucoinWebSocketManager manager)
         {
             Throw.IfNull(manager, nameof(manager));
 
@@ -89,7 +89,7 @@ namespace Kucoin.WebSocket.Manager
                 client.UnsubscribeAll();
 
                 // Wait for adapter asynchronous operation to complete.
-                await ((IBinanceWebSocketClientAdapter)client).Task
+                await ((IKucoinWebSocketClientAdapter)client).Task
                     .ConfigureAwait(false);
             }
 

@@ -12,7 +12,7 @@ namespace Kucoin.Account.Orders
 
         #region Constructors
 
-        public TakeProfitLimitOrder(IBinanceApiUser user)
+        public TakeProfitLimitOrder(IKucoinApiUser user)
             : base(user)
         { }
 

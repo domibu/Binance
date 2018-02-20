@@ -2,7 +2,7 @@
 
 namespace Kucoin.WebSocket.Manager
 {
-    public interface IBinanceWebSocketClientAdapter
+    public interface IKucoinWebSocketClientAdapter
     {
         Task Task { get; }
     }

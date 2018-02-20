@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Kucoin.WebSocket.Manager
 {
-    internal sealed class SymbolStatisticsWebSocketClientAdapter : BinanceWebSocketClientAdapter<ISymbolStatisticsWebSocketClient>, ISymbolStatisticsWebSocketClient
+    internal sealed class SymbolStatisticsWebSocketClientAdapter : KucoinWebSocketClientAdapter<ISymbolStatisticsWebSocketClient>, ISymbolStatisticsWebSocketClient
     {
         #region Public Events
 
@@ -20,7 +20,7 @@ namespace Kucoin.WebSocket.Manager
 
         #region Constructors
 
-        public SymbolStatisticsWebSocketClientAdapter(IBinanceWebSocketManager manager, ISymbolStatisticsWebSocketClient client, ILogger<IBinanceWebSocketManager> logger = null, Action<Exception> onError = null)
+        public SymbolStatisticsWebSocketClientAdapter(IKucoinWebSocketManager manager, ISymbolStatisticsWebSocketClient client, ILogger<IKucoinWebSocketManager> logger = null, Action<Exception> onError = null)
             : base(manager, client, logger, onError)
         { }
 

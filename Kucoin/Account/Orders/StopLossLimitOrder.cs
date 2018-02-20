@@ -13,7 +13,7 @@ namespace Kucoin.Account.Orders
 
         #region Constructors
 
-        public StopLossLimitOrder(IBinanceApiUser user)
+        public StopLossLimitOrder(IKucoinApiUser user)
             : base(user)
         { }
 
