@@ -18,7 +18,7 @@ namespace BinanceConsoleApp.Controllers
     internal class LiveOrderBook : IHandleCommand
     {
         object _threadLock = new object();
-        static string _pathToDatabase = "DataSource=OrderBook.sqlite;Version=3;";
+        static string _pathToDatabase = "OrderBook01.sqlite";
         string _kucoinOrderBookSymbol;
         int _kucoinOrderBookPeriod = 1000;
         Timer _kucoinOrderBookTimer;
@@ -112,19 +112,21 @@ namespace BinanceConsoleApp.Controllers
                 {
                     var orderBook = await Program.KucoinApi.GetOrderBookAsync(_kucoinOrderBookSymbol);
 
+                    var top = OrderBookTop.Create(orderBook.Symbol, (orderBook.Bids.First().Price, orderBook.Bids.First().Quantity), (orderBook.Asks.First().Price, orderBook.Asks.First().Quantity));
+
                     using (var conn = new SQLiteConnection(_pathToDatabase, false))
                     {
                         conn.Insert(new OrderBookSqlite
                         {
-                            Timestamp = DateTime.Now,
+                            Timestamp = DateTime.UtcNow,
                             Market = "Kucoin",
                             Symbol = _kucoinOrderBookSymbol,
                             DataType = 82,
-                            Data = JsonConvert.SerializeObject(orderBook)
+                            Data = JsonConvert.SerializeObject(orderBook),
+                            Bid = (double)top.Bid.Price,
+                            Ask = (double)top.Ask.Price
                         });
                     }
-
-                    var top = OrderBookTop.Create(orderBook.Symbol, (orderBook.Bids.First().Price, orderBook.Bids.First().Quantity), (orderBook.Asks.First().Price, orderBook.Asks.First().Quantity));
 
                     lock (Program.ConsoleSync)
                     {
@@ -144,6 +146,7 @@ namespace BinanceConsoleApp.Controllers
 
         private static void OnDepthUpdate(DepthUpdateEventArgs e)
         {
+            var top = OrderBookTop.Create(e.Symbol, e.Bids.First(), e.Asks.First());
 
             using (var conn = new SQLiteConnection(_pathToDatabase, false))
             {
@@ -153,11 +156,11 @@ namespace BinanceConsoleApp.Controllers
                     Market = "Binance",
                     Symbol = e.Symbol,
                     DataType = 81,
-                    Data = JsonConvert.SerializeObject(e)
+                    Data = JsonConvert.SerializeObject(e),
+                    Bid = (double)top.Bid.Price,
+                    Ask = (double)top.Ask.Price
                 });
             }
-
-            var top = OrderBookTop.Create(e.Symbol, e.Bids.First(), e.Asks.First());
 
             lock (Program.ConsoleSync)
             {

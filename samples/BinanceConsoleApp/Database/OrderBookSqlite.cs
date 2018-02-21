@@ -16,5 +16,7 @@ namespace BinanceConsoleApp.Database
         public string Symbol { get; set; }
         public int DataType { get; set; }
         public string Data { get; set; }
+        public double Bid { get; set; }
+        public double Ask { get; set; }
     }
 }
