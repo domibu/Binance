@@ -20,7 +20,7 @@ namespace BinanceConsoleApp.Controllers
         object _threadLock = new object();
         static string _pathToDatabase = "DataSource=OrderBook.sqlite;Version=3;";
         string _kucoinOrderBookSymbol;
-        int _kucoinOrderBookPeriod = 3000;
+        int _kucoinOrderBookPeriod = 1000;
         Timer _kucoinOrderBookTimer;
 
         public async Task<bool> HandleAsync(string command, CancellationToken token = default)
@@ -124,7 +124,7 @@ namespace BinanceConsoleApp.Controllers
                         });
                     }
 
-                    var top = OrderBookTop.Create(orderBook.Symbol, (orderBook.Bids.First().Price, orderBook.Bids.First().Quantity), (orderBook.Bids.First().Price, orderBook.Bids.First().Quantity));
+                    var top = OrderBookTop.Create(orderBook.Symbol, (orderBook.Bids.First().Price, orderBook.Bids.First().Quantity), (orderBook.Asks.First().Price, orderBook.Asks.First().Quantity));
 
                     lock (Program.ConsoleSync)
                     {

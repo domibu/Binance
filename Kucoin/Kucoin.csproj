@@ -16,6 +16,11 @@
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net471|AnyCPU'">
+    <DefineConstants>TRACE;RELEASE;NET471</DefineConstants>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Extensions\AggregateTradeWebSocketClientExtensions.cs" />
     <Compile Remove="Extensions\CandlestickWebSocketClientExtensions.cs" />
