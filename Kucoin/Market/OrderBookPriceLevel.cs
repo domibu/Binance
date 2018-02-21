@@ -19,6 +19,11 @@ namespace Kucoin.Market
         /// </summary>
         public decimal Quantity { get; internal set; }
 
+        ///// <summary>
+        ///// Get the volume.
+        ///// </summary>
+        //public decimal Volume { get; internal set; }
+
         #endregion Public Properties
 
         #region Constructors
@@ -28,15 +33,19 @@ namespace Kucoin.Market
         /// </summary>
         /// <param name="price">The price.</param>
         /// <param name="quantity">The aggregate quantity.</param>
-        public OrderBookPriceLevel(decimal price, decimal quantity)
+        /// <param name="volume">The volume</param>
+        public OrderBookPriceLevel(decimal price, decimal quantity/*, decimal volume*/)
         {
             if (price < 0)
                 throw new ArgumentException($"{nameof(OrderBookPriceLevel)} price must greater than or equal to 0.", nameof(price));
             if (quantity < 0)
                 throw new ArgumentException($"{nameof(OrderBookPriceLevel)} quantity must be greater than or equal to 0.", nameof(quantity));
+            //if (volume < 0)
+            //    throw new ArgumentException($"{nameof(OrderBookPriceLevel)} volume must be greater than or equal to 0.", nameof(volume));
 
             Price = price;
             Quantity = quantity;
+            //Volume = volume;
         }
 
         #endregion Constructors
@@ -50,6 +59,7 @@ namespace Kucoin.Market
 
             return other.Price == Price
                 && other.Quantity == Quantity;
+                //&& other.Volume == Volume;
         }
 
         #endregion IEquatable

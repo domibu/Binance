@@ -11,11 +11,13 @@ namespace BinanceConsoleApp.Controllers
             if (!command.Equals("ping", StringComparison.OrdinalIgnoreCase))
                 return false;
 
-            var isSuccessful = await Program.BinanceApi.PingAsync(token);
+            var isBinanceSuccessful = await Program.BinanceApi.PingAsync(token);
+            var isKucoinSuccessful = await Program.KucoinApi.PingAsync(token);
 
             lock (Program.ConsoleSync)
             {
-                Console.WriteLine($"  Ping: {(isSuccessful ? "SUCCESSFUL" : "FAILED")}");
+                Console.WriteLine($"  BinancePing: {(isBinanceSuccessful ? "SUCCESSFUL" : "FAILED")}");
+                Console.WriteLine($"  KucoinPing: {(isKucoinSuccessful ? "SUCCESSFUL" : "FAILED")}");
                 Console.WriteLine();
             }
 

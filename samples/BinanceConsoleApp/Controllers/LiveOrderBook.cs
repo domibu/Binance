@@ -17,6 +17,12 @@ namespace BinanceConsoleApp.Controllers
 {
     internal class LiveOrderBook : IHandleCommand
     {
+        object _threadLock = new object();
+        static string _pathToDatabase = "DataSource=OrderBook.sqlite;Version=3;";
+        string _kucoinOrderBookSymbol;
+        int _kucoinOrderBookPeriod = 3000;
+        Timer _kucoinOrderBookTimer;
+
         public async Task<bool> HandleAsync(string command, CancellationToken token = default)
         {
             if (!command.StartsWith("live ", StringComparison.OrdinalIgnoreCase) &&
@@ -60,7 +66,7 @@ namespace BinanceConsoleApp.Controllers
             {
                 Program.ClientManager.DepthClient.Subscribe(symbol, 5, evt => OnDepthUpdate(evt));
 
-                using (var conn = new SQLite.SQLiteConnection(_pathToDatabase))
+                using (var conn = new SQLiteConnection(_pathToDatabase))
                 {
                     conn.CreateTable<OrderBookSqlite>();
                 }
@@ -74,6 +80,9 @@ namespace BinanceConsoleApp.Controllers
                     Console.WriteLine($"  ...live order book (depth) ENABLED for symbol: {symbol}");
                     Console.WriteLine();
                 }
+
+                _kucoinOrderBookTimer = new Timer(OrderBookTimerCallback, null, _kucoinOrderBookPeriod, Timeout.Infinite);
+                _kucoinOrderBookSymbol = symbol;
             }
             else
             {
@@ -88,12 +97,50 @@ namespace BinanceConsoleApp.Controllers
                     Console.WriteLine($"  ...live order book (depth) DISABLED for symbol: {symbol}");
                     Console.WriteLine();
                 }
+
+                _kucoinOrderBookTimer.Change(Timeout.Infinite, Timeout.Infinite);
             }
 
             return true;
         }
 
-        static string _pathToDatabase = "DataSource=OrderBook.sqlite;Version=3;";
+        private async void OrderBookTimerCallback(object state)
+        {
+            //lock (_threadLock)
+            {
+                try
+                {
+                    var orderBook = await Program.KucoinApi.GetOrderBookAsync(_kucoinOrderBookSymbol);
+
+                    using (var conn = new SQLiteConnection(_pathToDatabase, false))
+                    {
+                        conn.Insert(new OrderBookSqlite
+                        {
+                            Timestamp = DateTime.Now,
+                            Market = "Kucoin",
+                            Symbol = _kucoinOrderBookSymbol,
+                            DataType = 82,
+                            Data = JsonConvert.SerializeObject(orderBook)
+                        });
+                    }
+
+                    var top = OrderBookTop.Create(orderBook.Symbol, (orderBook.Bids.First().Price, orderBook.Bids.First().Quantity), (orderBook.Bids.First().Price, orderBook.Bids.First().Quantity));
+
+                    lock (Program.ConsoleSync)
+                    {
+                        Console.WriteLine($"  Kucoin  {top.Symbol}  -  Bid: {top.Bid.Price:.00000000}  |  {top.MidMarketPrice():.00000000}  |  Ask: {top.Ask.Price:.00000000}  -  Spread: {top.Spread():.00000000}");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                finally
+                {
+                    _kucoinOrderBookTimer.Change(_kucoinOrderBookPeriod, Timeout.Infinite);
+                }
+            }
+        }
 
         private static void OnDepthUpdate(DepthUpdateEventArgs e)
         {
@@ -105,6 +152,7 @@ namespace BinanceConsoleApp.Controllers
                     Timestamp = e.Time,
                     Market = "Binance",
                     Symbol = e.Symbol,
+                    DataType = 81,
                     Data = JsonConvert.SerializeObject(e)
                 });
             }
@@ -113,7 +161,7 @@ namespace BinanceConsoleApp.Controllers
 
             lock (Program.ConsoleSync)
             {
-                Console.WriteLine($"  {top.Symbol}  -  Bid: {top.Bid.Price:.00000000}  |  {top.MidMarketPrice():.00000000}  |  Ask: {top.Ask.Price:.00000000}  -  Spread: {top.Spread():.00000000}");
+                Console.WriteLine($"  Binance {top.Symbol}  -  Bid: {top.Bid.Price:.00000000}  |  {top.MidMarketPrice():.00000000}  |  Ask: {top.Ask.Price:.00000000}  -  Spread: {top.Spread():.00000000}");
             }
         }
 

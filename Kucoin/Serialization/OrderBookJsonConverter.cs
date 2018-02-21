@@ -16,8 +16,9 @@ namespace Kucoin.Serialization
 
         private const string KeySymbol = "symbol";
         private const string KeyLastUpdateId = "lastUpdateId";
-        private const string KeyBids = "bids";
-        private const string KeyAsks = "asks";
+        private const string KeyData = "data";
+        private const string KeyBids = "BUY";
+        private const string KeyAsks = "SELL";
 
         public override bool CanConvert(Type objectType)
         {
@@ -30,13 +31,18 @@ namespace Kucoin.Serialization
 
             var symbol = jObject[KeySymbol].Value<string>();
 
-            var lastUpdateId = jObject[KeyLastUpdateId].Value<long>();
+            long lastUpdateId = 1;//jObject[KeyLastUpdateId].Value<long>();
 
-            var bids = jObject[KeyBids]
+            var data = jObject[KeyData];
+
+            //.Select(_ => (_[0].Value<decimal>(), _[1].Value<decimal>()))
+            //.ToArray();
+
+            var bids = data[KeyBids]
                 .Select(_ => (_[0].Value<decimal>(), _[1].Value<decimal>()))
                 .ToArray();
 
-            var asks = jObject[KeyAsks]
+            var asks = data[KeyAsks]
                 .Select(_ => (_[0].Value<decimal>(), _[1].Value<decimal>()))
                 .ToArray();
 

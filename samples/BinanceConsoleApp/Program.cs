@@ -30,7 +30,6 @@ namespace BinanceConsoleApp
         public static IConfigurationRoot Configuration;
 
         public static IServiceProvider ServiceProvider;
-        public static IServiceProvider KucoinServiceProvider;
 
         public static IKucoinApi KucoinApi;
 

@@ -122,9 +122,9 @@ namespace Kucoin.Api
                     .ConfigureAwait(false);
             }
 
-            var request = new KucoinHttpRequest("/api/v1/depth");
+            var request = new KucoinHttpRequest("/v1/open/orders");
 
-            request.AddParameter("symbol", symbol.FormatSymbol());
+            request.AddParameter("symbol", symbol/*.FormatSymbol()*/);
 
             if (limit > 0)
             {

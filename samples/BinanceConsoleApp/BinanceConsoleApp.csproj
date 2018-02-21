@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <None Remove="DataSource=OrderBook.sqlite%3bVersion=3%3b" />
+    <None Remove="DataSource=OrderBook.sqlite%3bVersion=3%3b-journal" />
   </ItemGroup>
 
   <ItemGroup>
